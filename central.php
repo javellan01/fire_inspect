@@ -108,14 +108,15 @@
 				</div>
 				<div class='col-5'>
 					<h3 class='btn btn-outline-danger float-right'><?php echo "Data Atual: ".date("d/m/Y", $_SERVER['REQUEST_TIME']);?></h3>
+					
 				</div>
 			</div>
 			</div> 
 			<div class="card-body">	
 			<div class='row'>
-				
+			<a href="qrVerify.php?eq=MTMxNDk">Inspcionar</a>
 						
-					<div class="m-3 p-3 shadow rounded" id="calendar"></div>
+					<div class="w-full m-3 p-3 shadow rounded" id="calendar"></div>
 			</div>		
 			</div>
 		</div>
@@ -155,7 +156,7 @@
 				weekNumberTitle: 'W',
 				weekNumberCalculation: 'ISO',
 				editable: false,
-				height: 600,
+				height: 700,
 				dayMaxEvents: true, // allow "more" link when too many events
 				
 			  });

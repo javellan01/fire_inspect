@@ -25,14 +25,18 @@ function getExtLastInspection($conn,$ext){
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $mes = date("m", $_SERVER['REQUEST_TIME']);
-
+    
     if($data){
-    if($mes == $data['dt_mes']){
-        $data['insp_block'] = 1;
+        if($mes == $data['dt_mes']){
+            $data['insp_block'] = 1;
+        }else{
+            $data['insp_block'] = 0;
+        }
     }
-    }
+
     if(!$data){
         $data['dt_inspecao'] = 'Inspeção anterior não cadastrada.';
+        $data['insp_block'] = 0;
     }
 
     return $data;
@@ -56,18 +60,23 @@ function getExtintor($conn,$ext){
     switch($data['tx_tipo']){
         case "AP": 
             $data['tx_tipo'] = 'Água Pressurizada';
+            $data['cs_checkbox'] = 0;
             break;
         case "ESP. MEC.": 
             $data['tx_tipo'] = 'Espuma Mecânica';
+            $data['cs_checkbox'] = 1;
             break;
         case "ABC": 
             $data['tx_tipo'] = 'Pó Químico ABC';
+            $data['cs_checkbox'] = 2;
             break;
         case "BC": 
             $data['tx_tipo'] = 'Pó Químico BC';
+            $data['cs_checkbox'] = 3;
             break;
         case "Co2": 
             $data['tx_tipo'] = 'CO2';
+            $data['cs_checkbox'] = 4;
             break;
     }
 
@@ -82,6 +91,54 @@ function getExtintor($conn,$ext){
 
     return $data;
 
+}
+
+function insertInspecaoExtintor($conn,$data){
+    $e = null;
+
+    try{
+    $stmt = $conn->prepare("INSERT INTO extintores_insp
+                        (id_serie, nb_desvio, tx_sv, tx_sh, tx_la, tx_ao, tx_aea, tx_sp, tx_pn, tx_th, 
+                        tx_carga, tx_manom, tx_cil, tx_etq, tx_rot, tx_alc, tx_gat, tx_trv, tx_lcr, tx_mang, tx_pun, tx_dif, tx_coment)
+                        VALUES (:id_serie, :nb_desvio, :tx_sv, :tx_sh, :tx_la, :tx_ao, :tx_aea, :tx_sp, :tx_pn, :tx_th, 
+                        :tx_carga, :tx_manom, :tx_cil, :tx_etq, :tx_rot, :tx_alc, :tx_gat, :tx_trv, :tx_lcr, :tx_mang, :tx_pun, :tx_dif, :tx_coment)");
+    
+    $stmt->bindParam(':id_serie', $data['id_serie']);  
+    $stmt->bindParam(':nb_desvio', $data['nb_desvio']);
+    $stmt->bindParam(':tx_sv', $data['ch1']);
+    $stmt->bindParam(':tx_sh', $data['ch2']);
+    $stmt->bindParam(':tx_la', $data['ch3']);
+    $stmt->bindParam(':tx_ao', $data['ch4']);
+    $stmt->bindParam(':tx_aea', $data['ch5']);
+    $stmt->bindParam(':tx_sp', $data['ch6']);
+    $stmt->bindParam(':tx_pn', $data['ch7']);
+    $stmt->bindParam(':tx_th', $data['ch8']);
+    $stmt->bindParam(':tx_carga', $data['ch9']);
+    $stmt->bindParam(':tx_manom', $data['ch10']);
+    $stmt->bindParam(':tx_cil', $data['ch11']);
+    $stmt->bindParam(':tx_etq', $data['ch12']);
+    $stmt->bindParam(':tx_rot', $data['ch13']);
+    $stmt->bindParam(':tx_alc', $data['ch14']);
+    $stmt->bindParam(':tx_gat', $data['ch15']);
+    $stmt->bindParam(':tx_trv', $data['ch16']);
+    $stmt->bindParam(':tx_lcr', $data['ch17']);
+    $stmt->bindParam(':tx_mang', $data['ch18']);
+    $stmt->bindParam(':tx_pun', $data['ch19']);
+    $stmt->bindParam(':tx_dif', $data['ch20']);
+    $stmt->bindParam(':tx_coment', $data['comentario']);
+    $stmt->execute();
+    
+    }catch(PDOException $e)
+    {
+    $e->getMessage();
+    }
+
+    if($e == null){
+        return 1;
+    }else{
+        return 0;
+    }
+    
 }
 
 function insertExtintores($conn,$data){
