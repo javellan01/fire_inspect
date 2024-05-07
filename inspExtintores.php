@@ -63,7 +63,7 @@ $key = include("./config/key.php");
              $data['ch7'] = 'N/C';
              $data['nb_desvio'] += 6;
          }else{ 
-             $extintor['cs_checkbox'] == 4 ? $data['ch19'] = 'N/A' : $data['ch19'] = 'C';
+             $extintor['cs_checkbox'] == 4 ? $data['ch7'] = 'N/A' : $data['ch7'] = 'C';
         }
         if(isset($_POST['ch8'])) {
              $data['ch8'] = 'N/C';
@@ -73,13 +73,13 @@ $key = include("./config/key.php");
              $data['ch9'] = 'N/C';
              $data['nb_desvio'] += 6;
          }else{
-            $extintor['cs_checkbox'] == 4 ? $data['ch19'] = 'C' : $data['ch19'] = 'N/A';
+            $extintor['cs_checkbox'] == 4 ? $data['ch9'] = 'C' : $data['ch9'] = 'N/A';
             }
         if(isset($_POST['ch10'])) {
              $data['ch10'] = 'N/C';
              $data['nb_desvio'] += 6;
         }else{  
-            $extintor['cs_checkbox'] == 4 ? $data['ch19'] = 'N/A' : $data['ch19'] = 'C';
+            $extintor['cs_checkbox'] == 4 ? $data['ch10'] = 'N/A' : $data['ch10'] = 'C';
         }
        if(isset($_POST['ch11'])) {
              $data['ch11'] = 'N/C';
@@ -123,7 +123,7 @@ $key = include("./config/key.php");
              $data['ch20'] = 'N/C';
              $data['nb_desvio'] += 1;
         }else{  
-            $extintor['cs_checkbox'] == 4 ? $data['ch19'] = 'C' : $data['ch19'] = 'N/A';
+            $extintor['cs_checkbox'] == 4 ? $data['ch20'] = 'C' : $data['ch20'] = 'N/A';
         }
 
         unset($_SESSION['extintor']); 
