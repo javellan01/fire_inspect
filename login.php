@@ -261,7 +261,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-		//$('#usuario').mask('000.000.000-00');
+		$('#usuario').mask('000.000.000-00');
 		
 		$(".login-button").submit(function(event){
 

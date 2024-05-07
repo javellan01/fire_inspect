@@ -58,7 +58,7 @@
 			<div class='card-body'>
 				<table class='table table-responsive-lg'>
 				<tbody>
-					<tr><th>Matricula: <?php echo $user['tx_matricula']; ?></th></tr>
+					<tr><th>CPF: <?php echo $user['tx_matricula']; ?></th></tr>
 					<tr><th>Email: <?php echo ($user['tx_email'] == '') ? "Email não cadastrado." : $user['tx_email']; ?></th></tr>
 					<tr><th>Telefone: <?php echo ($user['tx_telefone'] == '') ? "Número não cadastrado." : $user['tx_telefone']; ?></th></tr>
 				</tbody>	
@@ -67,26 +67,6 @@
 		</div>
 	
 	</div>
-		<div class='row'>
-			<div class='col-12'>
-			<div class='card-header'>
-				<h5>Alterar Senha: </h5>
-				</div>
-				<div class='card-body'>	
-					<div class='row'>
-					<div class='col-8'>	
-						<form>
-						<input class="form-control" type="password" id="formASenha" name="ASenha" placeholder="Nova Senha">
-						</form>
-					</div>	
-					<div class='col-4'>	
-						<a class='btn btn-outline-primary float-right' href="" role='button'>OK</a>
-					</div>
-				</div>	
-				</div>
-			</div>
-		</div>
-		<div id='process'><p></p></div>
 	</div>
 	</div>
 </div>

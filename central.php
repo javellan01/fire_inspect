@@ -76,14 +76,14 @@
 
 <body class="app header-fixed">
 <header class='app-header navbar' style='background: #2f353a; border-bottom: 4px solid #a60117;'>
-			<ul class="nav navbar-nav ml-auto">
-				<li class="nav-item px-3">
-				<a class="nav-link text-white" style="font-weight: 800;" href="javascript:loadPhp('perfil.php');"><i class="nav-icon cui-user"></i><?php echo " ".mb_strtoupper($_SESSION['usuario'], 'UTF-8');?></a>
+			<ul class="nav navbar-nav m-auto">
+				<li class="nav-item p-2">
+				<a class="nav-link text-white" style="font-weight: 600;" href="javascript:loadPhp('perfil.php');"><i class="nav-icon cui-user"></i><?php echo " ".mb_strtoupper($_SESSION['usuario'], 'UTF-8');?></a>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav">
-				<li class="nav-item px-3">
-				<a class="btn btn-light" href="logout.php?token=<?php echo md5(session_id());?>">Logout <i class="nav-icon cui-account-logout"></i></a>
+			<ul class="nav navbar-nav m-auto">
+				<li class="nav-item p-2">
+				<a class="btn btn-outline-light" href="logout.php?token=<?php echo md5(session_id());?>">Logout <i class="nav-icon cui-account-logout"></i></a>
 				</li>
 			</ul>
 </header>
@@ -107,16 +107,24 @@
 				<h3><i class="nav-icon cui-home"></i><cite>Sistema FireSystems</cite> - Calendário:</h3>
 				</div>
 				<div class='col-5'>
-					<h3 class='btn btn-outline-danger float-right'><?php echo "Data Atual: ".date("d/m/Y", $_SERVER['REQUEST_TIME']);?></h3>
-					
+					<h3 class='btn btn-outline-primary float-right'><?php echo "Manaus, ".date("d/m/Y", $_SERVER['REQUEST_TIME']);?></h3>
 				</div>
 			</div>
 			</div> 
 			<div class="card-body">	
+			<a href="qrVerify.php?eq=MTQ1NDQ">Inspcionar 0</a>
+			<a href="qrVerify.php?eq=MTk0OTI">Inspcionar 1</a>
+			<a href="qrVerify.php?eq=MTU1">Inspcionar 2</a>
+			<a href="qrVerify.php?eq=MTU4MTA">Inspcionar 3</a>
+			<a href="qrVerify.php?eq=MTU4MTg">Inspcionar 4</a>
+			<a href="qrVerify.php?eq=MTU5MTU">Inspcionar 5</a>
+			<a href="qrVerify.php?eq=MTYyOQ">Inspcionar 6</a>
+			<a href="qrVerify.php?eq=MTY4">Inspcionar 7</a>
 			<div class='row'>
-			<a href="qrVerify.php?eq=MTMxNDk">Inspcionar</a>
-						
-					<div class="w-full m-3 p-3 shadow rounded" id="calendar"></div>
+				<div class='col-12'>
+				<div class="w-full m-1 p-1 shadow rounded" id="calendar"></div>
+				</div>		
+					
 			</div>		
 			</div>
 		</div>
@@ -148,15 +156,12 @@
 				displayEventTime : false,
 				locale: 'pt-br',
 				headerToolbar: {
-				  left: '',
-				  center: 'title',
-				  right: 'prevYear,prev,next,nextYear today'
+				  left: 'title',
+				  center: '',
+				  right: 'prev,next'
 				},
-				weekNumbers: true,
-				weekNumberTitle: 'W',
-				weekNumberCalculation: 'ISO',
+				aspectRatio: 1.15,
 				editable: false,
-				height: 700,
 				dayMaxEvents: true, // allow "more" link when too many events
 				
 			  });

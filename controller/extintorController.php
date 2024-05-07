@@ -55,6 +55,7 @@ function getExtintor($conn,$ext){
     $stmt->execute();
 
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    
     $data['insp_mode'] = 0;
 
     switch($data['tx_tipo']){
@@ -99,9 +100,9 @@ function insertInspecaoExtintor($conn,$data){
     try{
     $stmt = $conn->prepare("INSERT INTO extintores_insp
                         (id_serie, nb_desvio, tx_sv, tx_sh, tx_la, tx_ao, tx_aea, tx_sp, tx_pn, tx_th, 
-                        tx_carga, tx_manom, tx_cil, tx_etq, tx_rot, tx_alc, tx_gat, tx_trv, tx_lcr, tx_mang, tx_pun, tx_dif, tx_coment)
+                        tx_carga, tx_manom, tx_cil, tx_etq, tx_rot, tx_alc, tx_gat, tx_trv, tx_lcr, tx_mang, tx_pun, tx_dif, tx_coment, id_bombeiro)
                         VALUES (:id_serie, :nb_desvio, :tx_sv, :tx_sh, :tx_la, :tx_ao, :tx_aea, :tx_sp, :tx_pn, :tx_th, 
-                        :tx_carga, :tx_manom, :tx_cil, :tx_etq, :tx_rot, :tx_alc, :tx_gat, :tx_trv, :tx_lcr, :tx_mang, :tx_pun, :tx_dif, :tx_coment)");
+                        :tx_carga, :tx_manom, :tx_cil, :tx_etq, :tx_rot, :tx_alc, :tx_gat, :tx_trv, :tx_lcr, :tx_mang, :tx_pun, :tx_dif, :tx_coment, :id_bombeiro)");
     
     $stmt->bindParam(':id_serie', $data['id_serie']);  
     $stmt->bindParam(':nb_desvio', $data['nb_desvio']);
@@ -126,6 +127,7 @@ function insertInspecaoExtintor($conn,$data){
     $stmt->bindParam(':tx_pun', $data['ch19']);
     $stmt->bindParam(':tx_dif', $data['ch20']);
     $stmt->bindParam(':tx_coment', $data['comentario']);
+    $stmt->bindParam(':id_bombeiro', $data['bombeiro']);
     $stmt->execute();
     
     }catch(PDOException $e)
