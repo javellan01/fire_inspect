@@ -112,8 +112,8 @@
 			</div>
 			</div> 
 			<div class="card-body">	
-			<a href="qrVerify.php?eq=MTQ1NDQ">Inspcionar 0</a>
-			<a href="qrVerify.php?eq=MTk0OTI">Inspcionar 1</a>
+			<a href="qrVerify.php?eq=OTcyNw">Inspcionar 0</a>
+			<a href="qrVerify.php?eq=OTYyMg">Inspcionar 1</a>
 			<a href="qrVerify.php?eq=MTU1">Inspcionar 2</a>
 			<a href="qrVerify.php?eq=MTU4MTA">Inspcionar 3</a>
 			<a href="qrVerify.php?eq=MTU4MTg">Inspcionar 4</a>

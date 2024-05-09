@@ -1,3 +1,28 @@
+<?php
+	session_start();
+
+	header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+	header("Pragma: no-cache"); // HTTP 1.1
+	header("Expires: 0"); //
+
+	$extintor = '';
+	$inspecao = '';
+	
+	if(isset($_SESSION['extintor'])){
+    $ext = $_SESSION['extintor'];
+
+    require("./DB/conn.php");
+    require("./controller/extintorController.php");
+
+	date_default_timezone_set('America/Manaus');
+
+    $inspecao = getExtLastInspection($conn,$ext);
+    $extintor = getExtintorBasic($conn,$ext);
+
+	unset($_SESSION['extintor']);
+	}
+
+	?>
 
 <!DOCTYPE html>
 <html>
@@ -140,6 +165,22 @@
 		form button:hover {
 		  background-color: #f5f7f9;
 		}
+		button {
+		  appearance: none;
+		  outline: 0;
+		  background-color: white;
+		  border: 2px solid FireBrick;
+		  padding: 10px 15px;
+		  color: FireBrick;
+		  border-radius: 4px;
+		  width: 250px;
+		  cursor: pointer;
+		  font-size: 18px;
+		  transition-duration: 0.25s;
+		}
+		button:hover {
+		  background-color: #eee;
+		}
 		.footer {
 		  display: flex;
 		  flex-wrap: wrap;
@@ -152,7 +193,7 @@
 		  bottom: 0;
 		  left: 0;
 		  height: 100px;
-		  z-index: 120;
+		  
 		}
 		.header {
 		  display: flex;
@@ -166,8 +207,9 @@
 		  top: 0;
 		  left: 0;
 		  height: 100px;
-		  z-index: 120;
+		  
 		}
+
 		@-webkit-keyframes square {
 		  0% {
 		    -webkit-transform: translateY(0);
@@ -195,35 +237,84 @@
 		a:hover {
 			color: orange;
 			} 
+		/* The Modal (background) */
+		.modal {
+		
+		display: none; /* Hidden by default */
+		position: fixed; /* Stay in place */
+		z-index: 1; /* Sit on top */
+		left: 0;
+		top: 0;
+		width: 100%; /* Full width */
+		height: 100%; /* Full height */
+		overflow: auto; /* Enable scroll if needed */
+		background-color: rgb(0,0,0); /* Fallback color */
+		background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+		}
+		.modal-header {
+			color: FireBrick;
+			font-size: 22px;
+			border-bottom: 1px solid FireBrick;
+			margin-bottom: 10px;
+		}
+		/* Modal Content/Box */
+		.modal-content {
+		color: #004472;
+		border-radius: 12px;	
+		font-size: 20px;
+		background-color: #fefefe;
+		margin: 10% auto; /* 15% from the top and centered */
+		padding: 20px;
+		width: 80%; 
+		max-width: 500px;
+		animation-name: animatetop;
+  		animation-duration: 0.4s/* Could be more or less, depending on screen size */
+		}
+		/* The Close Button */
+		.close {
+		color: #333;
+		float: right;
+		font-size: 28px;
+		font-weight: bold;
+		}
+		.close:hover,
+		.close:focus {
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
+		}	
+		/* Add Animation */
+		@keyframes animatetop {
+		from {top: -300px; opacity: 0}
+		to {top: 0; opacity: 1}
+		}
+
 	</style>
 </head>
 <body>
 
-	<div class="wrap">
+	<div class="wrap" style="background-image: url('./img/front.jpg');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			position: relative;">
 		<div class="header">
 			<div>
-			<span>Sistema de Inspeção Online</span>
+			<span></span>
 			</div>
 			<a style="margin-left: auto" href="http://www.firesystems-am.com.br/">
 			<img src="https://firesystems-am.com.br/wp-content/uploads/2020/06/FIRE-LOGO.png" alt="FIRE-AM" width="202" height="68">
 			</a>
 		</div>
 		
-		<div class="container" style="background-image: url('./img/front.jpg');
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: cover;
-			position: relative;
-//			z-index: 0;
-			
-			"></div>
+		<div class="container" >
+			</div>
 			<div class="container" style="
 			position: absolute;
 			top: 0;
 			left: 0;
 			width: 100%;
 			text-align: center;
-			z-index: 99999 !important;
 			">
 			
 			<h1>Inspeção Online</h1>
@@ -241,14 +332,17 @@
 					<input type="password" name="senha" id="senha" placeholder="Entrar Senha" autocomplete="new-password" />
 					<input type="text" name="fakepasswordremembered" style="display:none" />
 					
-					<br />
+					<br/>
 <!--
 			<input type="text" id="teste" name="usuario" placeholder="eg. 000.000.000-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" max-lenght="14" /> 
 <!---->
 				</div>
 				<button type="submit" class="login-button">Entrar</button>
 			</form>
-
+			<?php if($extintor != ''){
+				echo '<br><button id="openModal">Modo Visitante: Ver Detalhes do QR Code</button>';
+			}
+			?>
 		</div>
 		
 		<div class="footer">
@@ -258,10 +352,30 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Modal content -->
+	<div id="qrModal" class="modal">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h2>Dados do Extintor: </h2>
+		</div>
+		<div class="modal-body">
+				<h3 style="font-weight: bold;"><?php echo $extintor['bool_carreta'].' '.$extintor['tx_tipo'];?></h3>
+			    <h4>Capacidade:  <i style="font-weight: bold;"><?php echo $extintor['tx_capacidade'];?></i></h4>
+                <h4>Nº Série: <i style="font-weight: bold;"><?php echo $extintor['id_serie'];?></i></h4>
+                <h4>Selo Inmetro: <i style="font-weight: bold;"><?php echo $extintor['tx_inmetro'];?></i></h4>
+                <h4>Última Inspeção: <i style="font-weight: bold;"><?php echo $inspecao['dt_inspecao'];?></i></h4>
+				<br>
+				<div style="text-align:center;">
+				<button  id="closeModal">Fechar</button>
+				</div>
+		</div>
+		</div>
+	</div>	
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-		$('#usuario').mask('000.000.000-00');
+		//$('#usuario').mask('000.000.000-00');
 		
 		$(".login-button").submit(function(event){
 
@@ -269,7 +383,34 @@
 			var senha = $("input#senha").val();
 			return false;
 			});
+
+			// Get the modal
+			var modal = document.getElementById("qrModal");
+
+			// Get the button that opens the modal
+			var btn = document.getElementById("openModal");
+			var csbtn = document.getElementById("closeModal");
+
+			// When the user clicks on the button, open the modal
+			btn.onclick = function() {
+			modal.style.display = "block";
+			}
+
+			csbtn.onclick = function() {
+			modal.style.display = "none";
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+			}
+
+
 		});	
+
+
 	</script>
 
 </body>

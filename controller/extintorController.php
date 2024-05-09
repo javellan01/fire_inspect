@@ -94,6 +94,50 @@ function getExtintor($conn,$ext){
 
 }
 
+function getExtintorBasic($conn,$ext){
+
+    $stmt = $conn->prepare("SELECT inm.tx_inmetro, ext.id_serie, ext.tx_tipo, ext.tx_capacidade, ext.bool_carreta, ext.cs_estado
+                        FROM extintores AS ext
+                        INNER JOIN extintores_inm AS inm ON ext.id_serie = inm.id_serie
+                        WHERE ext.id_serie LIKE :id_serie");
+    $stmt->bindParam(':id_serie', $ext);  
+    $stmt->execute();
+
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    $data['insp_mode'] = 0;
+
+    switch($data['tx_tipo']){
+        case "AP": 
+            $data['tx_tipo'] = 'Água Pressurizada';
+            break;
+        case "ESP. MEC.": 
+            $data['tx_tipo'] = 'Espuma Mecânica';
+            break;
+        case "ABC": 
+            $data['tx_tipo'] = 'Pó Químico ABC';
+            break;
+        case "BC": 
+            $data['tx_tipo'] = 'Pó Químico BC';
+            break;
+        case "Co2": 
+            $data['tx_tipo'] = 'CO2';
+            break;
+    }
+
+    switch($data['bool_carreta']){
+        case 1: 
+            $data['bool_carreta'] = 'Carreta';
+            break;
+        default: 
+            $data['bool_carreta'] = 'Extintor Portátil';
+            break;
+    }
+
+    return $data;
+
+}
+
 function insertInspecaoExtintor($conn,$data){
     $e = null;
 

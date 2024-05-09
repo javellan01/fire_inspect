@@ -14,6 +14,7 @@ $key = include("./config/key.php");
 	} 
     if(!$_SESSION['extintor']){
         header("Location: central.php");
+        exit();
     }
 
 	header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
@@ -222,29 +223,29 @@ $key = include("./config/key.php");
                         font-weight: 500;">
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch1">SINAL VERTICAL</label>    
-                    <input type="checkbox" class="btn-check" id="ch1" name="ch1" value="N/C">
+                    <input type="checkbox" class="btn-check" id="ch1" name="ch1" value="1">
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch2">SINAL HORIZONTAL</label>    
-                    <input type="checkbox" class="btn-check" id="ch2" name="ch2" value="N/C">
+                    <input type="checkbox" class="btn-check" id="ch2" name="ch2" value="1">
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch3">LOCAL ADEQUADO</label>    
-                    <input type="checkbox" class="btn-check" id="ch3" name="ch3" value="N/C">
+                    <input type="checkbox" class="btn-check" id="ch3" name="ch3" value="1">
                     </div>
                 
                 
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch4">ACESSO OBSTRUÍDO</label>    
-                    <input class="btn-check" type="checkbox" id="ch4" name="ch4" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch4" name="ch4" value="1">
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch5">AGENTE EXT. ADEQUADO</label>    
-                    <input class="btn-check" type="checkbox" id="ch5" name="ch5" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch5" name="ch5" value="1">
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch6">SUPORTE</label>    
-                    <input class="btn-check" type="checkbox" id="ch6" name="ch6" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch6" name="ch6" value="1">
                     </div>
                 
                 
@@ -252,19 +253,19 @@ $key = include("./config/key.php");
                     <label class="btn 
                     <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-secondary btn-lg' : 'btn-outline-danger btn-lg';?>
                     " for="ch7">PRESSÃO NOMINAL</label>    
-                    <input class="btn-check" type="checkbox" id="ch7" name="ch7" value="N/C" 
+                    <input class="btn-check" type="checkbox" id="ch7" name="ch7" value="1" 
                     <?php if($extintor['cs_checkbox'] == 4) echo 'disabled';?>
                     >
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch8">TESTE HIDROSTÁTICO</label>    
-                    <input class="btn-check" type="checkbox" id="ch8" name="ch8" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch8" name="ch8" value="1">
                     </div>
                     <div>
                     <label class="btn 
                     <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-danger btn-lg' : 'btn-outline-secondary btn-lg';?>
                     " for="ch9">CARGA / PESO</label>    
-                    <input class="btn-check" type="checkbox" id="ch9" name="ch9" value="N/C" 
+                    <input class="btn-check" type="checkbox" id="ch9" name="ch9" value="1" 
                     <?php if($extintor['cs_checkbox'] != 4) echo 'disabled';?>
                     >
                     </div>
@@ -274,45 +275,45 @@ $key = include("./config/key.php");
                     <label class="btn 
                     <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-secondary btn-lg' :'btn-outline-danger btn-lg';?>
                     " for="ch10">MANÔMETRO</label>    
-                    <input class="btn-check" type="checkbox" id="ch10" name="ch10" value="N/C"
+                    <input class="btn-check" type="checkbox" id="ch10" name="ch10" value="1"
                     <?php if($extintor['cs_checkbox'] == 4) echo 'disabled';?>
                     >
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch11">CILINDRO</label>    
-                    <input class="btn-check" type="checkbox" id="ch11" name="ch11" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch11" name="ch11" value="1">
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg"  for="ch12">ETIQUETA</label>    
-                    <input class="btn-check" type="checkbox" id="ch12" name="ch12" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch12" name="ch12" value="1">
                     </div>
                 
                 
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch13">RÓTULO</label>    
-                    <input class="btn-check" type="checkbox" id="ch13" name="ch13" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch13" name="ch13" value="1">
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch14">ALÇA</label>    
-                    <input class="btn-check" type="checkbox" id="ch14" name="ch14" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch14" name="ch14" value="1">
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg"  for="ch15">GATILHO</label>    
-                    <input class="btn-check" type="checkbox" id="ch15" name="ch15" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch15" name="ch15" value="1">
                     </div>
                 
                 
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch16">TRAVA</label>    
-                    <input class="btn-check" type="checkbox" id="ch16" name="ch16" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch16" name="ch16" value="1">
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch17">LACRE</label>    
-                    <input class="btn-check" type="checkbox" id="ch17" name="ch17" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch17" name="ch17" value="1">
                     </div>
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch18">MANGUEIRA</label>    
-                    <input class="btn-check" type="checkbox" id="ch18" name="ch18" value="N/C">
+                    <input class="btn-check" type="checkbox" id="ch18" name="ch18" value="1">
                     </div>
                 
                 
@@ -320,7 +321,7 @@ $key = include("./config/key.php");
                     <label class="btn 
                     <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-danger btn-lg' : 'btn-outline-secondary btn-lg';?>
                     " for="ch19">Punho</label>    
-                    <input class="btn-check" type="checkbox" id="ch19" name="ch19" value="N/C"
+                    <input class="btn-check" type="checkbox" id="ch19" name="ch19" value="1"
                     <?php if($extintor['cs_checkbox'] != 4) echo 'disabled';?>
                     >
                     </div>
@@ -328,14 +329,14 @@ $key = include("./config/key.php");
                     <label class="btn 
                     <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-danger btn-lg' : 'btn-outline-secondary btn-lg';?>
                     " for="ch20">Difusor</label>    
-                    <input class="btn-check" type="checkbox" id="ch20" name="ch20" value="N/C"
+                    <input class="btn-check" type="checkbox" id="ch20" name="ch20" value="1"
                     <?php if($extintor['cs_checkbox'] != 4) echo 'disabled';?>
                     >
                     </div>
                 
                 </section>
                 </div>
-				<div class="form-floating p-2">
+				<div class="form-floating p-2" id="inputComentario" hidden>
                     <h5><label for="comentario">Comentário: ( {{multi.textData.length}} / 256 caracteres)</label></h5>
                     <textarea v-model="multi.textData" class="form-control" maxlenght="256" row="3" name="comentario" id="comentario" style="height: 120px;"></textarea>    
 				</div>	
@@ -398,6 +399,17 @@ $key = include("./config/key.php");
 
         createApp({  multi }).mount("#inspEnvioMulti");
 
+        const nodeList = document.querySelectorAll("section > input");
+        const textArea = document.getElementById("inputComentario");
+
+        nodeList.onclick = function () {         
+        const countValue = 0;
+        for (let i = 0; i < nodeList.length; i++) {
+            countValue += nodeList[i].value;
+        }
+        if(countValue > 0) {textArea.hidden = false;}
+        if(countValue = 0) {textArea.hidden = true;}
+        };
     </script>
  </body> 
  

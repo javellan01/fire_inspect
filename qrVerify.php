@@ -8,11 +8,10 @@ if(!$string){
 }
 $ext = base64_decode_url($string);
 
-echo $ext;
-
 // Inicia sessões
 session_start(); 
 //echo session_status(); 
+$_SESSION['extintor'] = $ext;
 // Verifica se existe os dados da sessão de login 
 if(!isset($_SESSION["login"]) || !isset($_SESSION["usuario"])) 
     { 
@@ -25,7 +24,6 @@ header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
 header("Pragma: no-cache"); // HTTP 1.1.
 header("Expires: 0"); //
 
-$_SESSION['extintor'] = $ext;
 header("Location: inspExtintores.php"); 
 
 ?>
