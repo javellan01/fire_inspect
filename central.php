@@ -112,14 +112,6 @@
 			</div>
 			</div> 
 			<div class="card-body">	
-			<a href="qrVerify.php?eq=OTcyNw">Inspcionar 0</a>
-			<a href="qrVerify.php?eq=OTYyMg">Inspcionar 1</a>
-			<a href="qrVerify.php?eq=MTU1">Inspcionar 2</a>
-			<a href="qrVerify.php?eq=MTU4MTA">Inspcionar 3</a>
-			<a href="qrVerify.php?eq=MTU4MTg">Inspcionar 4</a>
-			<a href="qrVerify.php?eq=MTU5MTU">Inspcionar 5</a>
-			<a href="qrVerify.php?eq=MTYyOQ">Inspcionar 6</a>
-			<a href="qrVerify.php?eq=MTY4">Inspcionar 7</a>
 			<div class='row'>
 				<div class='col-12'>
 				<div class="w-full m-1 p-1 shadow rounded" id="calendar"></div>
