@@ -45,7 +45,7 @@ function getExtLastInspection($conn,$ext){
 
 function getExtintor($conn,$ext){
 
-    $stmt = $conn->prepare("SELECT map.tx_predio, map.tx_area, map.tx_localiz, inm.tx_inmetro, ext.id_serie, ext.tx_tipo, ext.tx_capacidade, ext.bool_carreta, ext.cs_estado, cli.tx_nome
+    $stmt = $conn->prepare("SELECT map.tx_predio, map.tx_area, map.tx_localiz, inm.tx_inmetro, ext.id_serie, ext.tx_tipo, ext.tx_capacidade, ext.bool_carreta, ext.cs_estado, cli.tx_nome, ext.id_cliente
                         FROM extintores AS ext
                         INNER JOIN cliente AS cli ON ext.id_cliente = cli.id_cliente
                         INNER JOIN extintores_inm AS inm ON ext.id_serie = inm.id_serie
@@ -142,11 +142,11 @@ function insertInspecaoExtintor($conn,$data){
     $e = null;
 
     try{
-    $stmt = $conn->prepare("INSERT INTO extintores_insp
+    $stmt = $conn->prepare("INSERT INTO extintores_insp 
                         (id_serie, nb_desvio, tx_sv, tx_sh, tx_la, tx_ao, tx_aea, tx_sp, tx_pn, tx_th, 
-                        tx_carga, tx_manom, tx_cil, tx_etq, tx_rot, tx_alc, tx_gat, tx_trv, tx_lcr, tx_mang, tx_pun, tx_dif, tx_coment, id_bombeiro)
+                        tx_carga, tx_manom, tx_cil, tx_etq, tx_rot, tx_alc, tx_gat, tx_trv, tx_lcr, tx_mang, tx_pun, tx_dif, tx_coment, id_bombeiro, tx_inmetro, tx_predio, tx_area, tx_localiz, id_cliente)
                         VALUES (:id_serie, :nb_desvio, :tx_sv, :tx_sh, :tx_la, :tx_ao, :tx_aea, :tx_sp, :tx_pn, :tx_th, 
-                        :tx_carga, :tx_manom, :tx_cil, :tx_etq, :tx_rot, :tx_alc, :tx_gat, :tx_trv, :tx_lcr, :tx_mang, :tx_pun, :tx_dif, :tx_coment, :id_bombeiro)");
+                        :tx_carga, :tx_manom, :tx_cil, :tx_etq, :tx_rot, :tx_alc, :tx_gat, :tx_trv, :tx_lcr, :tx_mang, :tx_pun, :tx_dif, :tx_coment, :id_bombeiro, :tx_inmetro, :tx_predio, :tx_area, :tx_localiz, :id_cliente)");
     
     $stmt->bindParam(':id_serie', $data['id_serie']);  
     $stmt->bindParam(':nb_desvio', $data['nb_desvio']);
@@ -172,6 +172,11 @@ function insertInspecaoExtintor($conn,$data){
     $stmt->bindParam(':tx_dif', $data['ch20']);
     $stmt->bindParam(':tx_coment', $data['comentario']);
     $stmt->bindParam(':id_bombeiro', $data['bombeiro']);
+    $stmt->bindParam(':tx_inmetro', $data['inmetro']);
+    $stmt->bindParam(':tx_predio', $data['predio']);
+    $stmt->bindParam(':tx_area', $data['area']);
+    $stmt->bindParam(':tx_localiz', $data['localiz']);
+    $stmt->bindParam(':id_cliente', $data['cliente']);
     $stmt->execute();
     
     }catch(PDOException $e)

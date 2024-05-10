@@ -34,8 +34,13 @@ $key = include("./config/key.php");
     if(isset($_POST['submit']) && $_POST['submit'] == 'submit'){
         $data['nb_desvio'] = 0;
         $data['id_serie'] = $_SESSION['extintor'];
-        $data['tx_coment'] = $_POST['comentario'];
+        $data['comentario'] = $_POST['comentario'];
         $data['bombeiro'] = $_SESSION['userid'];
+        $data['predio'] = $extintor['tx_predio'];
+        $data['area'] = $extintor['tx_area'];
+        $data['localiz'] = $extintor['tx_localiz'];
+        $data['inmetro'] = $extintor['tx_inmetro'];
+        $data['cliente'] = $extintor['id_cliente'];
         if(isset($_POST['ch1'])) {
              $data['ch1'] = 'N/C';
              $data['nb_desvio'] += 1;
@@ -320,7 +325,7 @@ $key = include("./config/key.php");
                     <div>
                     <label class="btn 
                     <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-danger btn-lg' : 'btn-outline-secondary btn-lg';?>
-                    " for="ch19">Punho</label>    
+                    " for="ch19">PUNHO</label>    
                     <input class="btn-check" type="checkbox" id="ch19" name="ch19" value="1"
                     <?php if($extintor['cs_checkbox'] != 4) echo 'disabled';?>
                     >
@@ -328,7 +333,7 @@ $key = include("./config/key.php");
                     <div>
                     <label class="btn 
                     <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-danger btn-lg' : 'btn-outline-secondary btn-lg';?>
-                    " for="ch20">Difusor</label>    
+                    " for="ch20">DIFUSOR</label>    
                     <input class="btn-check" type="checkbox" id="ch20" name="ch20" value="1"
                     <?php if($extintor['cs_checkbox'] != 4) echo 'disabled';?>
                     >
@@ -399,16 +404,21 @@ $key = include("./config/key.php");
 
         createApp({  multi }).mount("#inspEnvioMulti");
 
-        const nodeList = document.querySelectorAll("section > input");
+        const checkList = document.querySelectorAll("input[type='checkbox']");
         const textArea = document.getElementById("inputComentario");
-
-        nodeList.onclick = function () {         
         const countValue = 0;
-        for (let i = 0; i < nodeList.length; i++) {
-            countValue += nodeList[i].value;
+
+        for (let i = 0; i < checkList.length; i++) {
+            checkList[i].addEventListener("change", displayCheck);
         }
-        if(countValue > 0) {textArea.hidden = false;}
-        if(countValue = 0) {textArea.hidden = true;}
+
+        function displayCheck (e) {         
+        let counter = 0;
+        for (let i = 0; i < checkList.length; i++) {
+            if(checkList[i].checked == true) counter = counter + 1; 
+            
+        }
+            counter == 0 ? textArea.hidden = true : textArea.hidden = false;
         };
     </script>
  </body> 
