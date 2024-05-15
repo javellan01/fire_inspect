@@ -26,8 +26,8 @@
 	require("./controller/agentController.php");
 	require("./DB/conn.php");	
 	
+	$events = getInspectEvents($conn,$_SESSION['userid']);
 
-	
 ?>
 <!DOCTYPE html>
 <html><head>
@@ -70,7 +70,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 	<!-- AJAX Scriping for loading dynamically PHP on server -->
 		<script src="./assets/js/central.js"></script>
-	
+
 
 </head>
 
@@ -99,7 +99,7 @@
 			<li class="breadcrumb-item active">Central</li>
 		</ol>
 	</nav>
-	<div class="container-fluid">
+	<div class="container-fluid" style="max-width: 1200px;">
 		<div class="card">
 			<div class='card-header'>
 			<div class="row mt-1">
@@ -138,9 +138,13 @@
 		
 		</div>
 	</footer>
-		<!-- fullCallendar ----------------------------------------------------->
-		
 			<script>
+  			  var events_data = <?php echo json_encode($events, JSON_HEX_TAG); ?>;
+			</script>	
+		<!-- fullCallendar ----------------------------------------------------->
+
+			<script>
+
 			$(document).ready(function() {
 			var calendarEl = document.getElementById('calendar');
 			
@@ -152,6 +156,7 @@
 				  center: '',
 				  right: 'prev,next'
 				},
+				events: <?php echo json_encode($events, JSON_HEX_TAG); ?>,
 				aspectRatio: 1.15,
 				editable: false,
 				dayMaxEvents: true, // allow "more" link when too many events

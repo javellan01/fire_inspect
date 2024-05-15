@@ -32,31 +32,39 @@
 		return $color;
     }
     
-    function getEvents($conn){
-        $stmt = $conn->query("SELECT c.tx_nome, p.dt_idata, p.dt_tdata, p.tx_codigo, p.tx_local, p.cs_estado, p.id_pedido FROM pedido p INNER JOIN cliente c ON p.id_cliente = c.id_cliente");
-        $obj = $stmt->fetchAll(PDO::FETCH_OBJ);
+    function getInspectEvents($conn,$id_bombeiro){
+        
+        
+        $stmt = $conn->query("SELECT id_bombeiro, DATE_FORMAT(dt_inspecao, '%Y-%m-%d') AS data_inspecao, COUNT(*) AS numero_insp
+                              FROM extintores_insp 
+                              WHERE id_bombeiro = $id_bombeiro
+                              GROUP BY data_inspecao
+                              HAVING COUNT(*) > 1;
+                              ");
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $item = 1;
-        $data = '';
-        $data .= '[';
-        foreach($obj  AS $pedido){
-            if($pedido->cs_estado == 1) {
-                $color = cat_color(9);
-                $status = 'Encerrado';
-            }	
-            if($pedido->cs_estado == 0){ 
-                $color = cat_color($item);
-                $status = 'Ativo';
-                }
-            $url = "#";
-            $periodo = 'Início: '.data_usql($pedido->dt_idata).' - Término: '.data_usql($pedido->dt_tdata);
+        $total = 0;
+        $events = [];
+        $i = 0;
+        $color = cat_color(1);
+
+        foreach($data AS $row){
             
-            $data .= "{ title: '".$pedido->tx_nome."', pedido:'".$pedido->tx_codigo."', start:'".$pedido->dt_idata."', end:'".$pedido->dt_tdata."T18:00:00',url:'".$url."', color:'".$color."', status:'".$status."', periodo:'".$periodo."', allDay: false},";
-            $item += 1;
-        }
-        $data .= ']';
+            $event['title'] = $row['numero_insp'].' Inspeções Realizadas';
+            $event['start'] = $row['data_inspecao'];
+            $event['end'] = $row['data_inspecao'].'T18:00:00';
+            $event['color'] = $color;
+            $event['allDay'] = 'false';
+            $total += $row['numero_insp'];
+            $events[$i]=$event;
+            $i++;
 
-        echo $data;
+        }
+        
+        //$events['total'] = $total;
+
+        return $events;
+
     }
     
     function selectPedidos($conn){

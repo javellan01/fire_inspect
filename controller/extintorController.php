@@ -12,9 +12,31 @@ function base64_decode_url($string) {
     return base64_decode(str_replace(['-','_'], ['+','/'], $string));
 }
 
+//Recebe data atual e limite em dias, e verifica data atual está dentro do limite ou não
+function toInspect($current_date, $limit){
+
+    $data['diff'] = '';
+    $data['msg'] = '';
+    $last=date_create($current_date);
+    $server_now = date_create(date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']));
+    $diff=date_diff($last,$server_now);
+    //echo $diff->format("%a days");
+    $nb_diff = $diff->format("%a") * 1;
+
+    $differ = $limit - $nb_diff;
+
+    if($differ < 0 ) $differ = 0;
+
+    $data['diff'] = $differ;   
+    $data['msg'] = $differ > 0 ? 'Inspeção N1 será liberada em: '.$differ.' dia(s).' : '';
+
+    return $data;
+
+}
+
 function getExtLastInspection($conn,$ext){
 
-    $stmt = $conn->prepare("SELECT id_inspecao, DATE_FORMAT(dt_inspecao, '%d/%m/%Y') AS dt_inspecao, DATE_FORMAT(dt_inspecao, '%m') AS dt_mes
+    $stmt = $conn->prepare("SELECT id_inspecao, DATE_FORMAT(dt_inspecao, '%d/%m/%Y') AS dt_inspecao, DATE_FORMAT(dt_inspecao, '%m') AS dt_mes, dt_inspecao AS date_sqlformat
                         FROM extintores_insp
                         WHERE id_serie LIKE :id_serie
                         ORDER BY id_inspecao DESC
@@ -28,15 +50,20 @@ function getExtLastInspection($conn,$ext){
     
     if($data){
         if($mes == $data['dt_mes']){
+            $diff = toInspect($data['date_sqlformat'],20);
             $data['insp_block'] = 1;
+            $data['msg'] = 'Inspeção será liberada no mês seguinte.';
         }else{
-            $data['insp_block'] = 0;
+            $diff = toInspect($data['date_sqlformat'],20);
+            $diff['diff'] > 0 ? $data['insp_block'] = 1 : $data['insp_block'] = 0;
+            $data['msg'] = $diff['msg'];
         }
     }
 
     if(!$data){
         $data['dt_inspecao'] = 'Inspeção anterior não cadastrada.';
         $data['insp_block'] = 0;
+        $data['msg'] = '';
     }
 
     return $data;
@@ -45,7 +72,7 @@ function getExtLastInspection($conn,$ext){
 
 function getExtintor($conn,$ext){
 
-    $stmt = $conn->prepare("SELECT map.tx_predio, map.tx_area, map.tx_localiz, inm.tx_inmetro, ext.id_serie, ext.tx_tipo, ext.tx_capacidade, ext.bool_carreta, ext.cs_estado, cli.tx_nome, ext.id_cliente
+    $stmt = $conn->prepare("SELECT map.tx_predio, map.tx_area, map.tx_localiz, inm.tx_inmetro, ext.id_serie, ext.tx_tipo, ext.tx_capacidade, ext.bool_carreta, ext.cs_estado, cli.tx_nome, ext.id_cliente, DATE_FORMAT(ext.dt_vencimenton2, '%d/%m/%Y') AS dt_vencimenton2, DATE_FORMAT(ext.dt_vencimenton3, '%d/%m/%Y') AS dt_vencimenton3
                         FROM extintores AS ext
                         INNER JOIN cliente AS cli ON ext.id_cliente = cli.id_cliente
                         INNER JOIN extintores_inm AS inm ON ext.id_serie = inm.id_serie

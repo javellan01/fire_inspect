@@ -209,13 +209,11 @@ $key = include("./config/key.php");
 			<form action="inspExtintores.php" method="POST">	
 			<div class="card-body" id="inspEnvioMulti">	  
                 <h3 class="text-xl mb-2 text-danger"><i class="nav-icon cui-magnifying-glass"></i> <?php echo $extintor['bool_carreta'].' '.$extintor['tx_tipo'];?></h3>
-                <h4><i class="nav-icon cui-note"></i>Capacidade: <?php echo $extintor['tx_capacidade'];?></h4>
-                <h4><i class="nav-icon cui-note"></i>Nº Série: <i><?php echo $extintor['id_serie'];?></i> - Selo Inmetro: <i><?php echo $extintor['tx_inmetro'];?></i></h4>
-                <h4><i class="nav-icon cui-calendar"></i> Última Inspeção: <?php echo $inspecao['dt_inspecao'];?></h4>
-                <?php if($extintor['cs_checkbox'] == 4)
-                echo '<h4 class="text-primary"><i class="nav-icon cui-calendar"></i> 
-                Próxima Carga: '.$inspecao['dt_inspecao'].'</h4>';?>
-                <h4 class="text-danger"><i class="nav-icon cui-calendar"></i> Vencimento: <?php echo $inspecao['dt_inspecao'];?></h4>
+                <h4><i class="nav-icon cui-note"></i> Capacidade: <?php echo $extintor['tx_capacidade'];?></h4>
+                <h4><i class="nav-icon cui-note"></i> Nº Série: <i><?php echo $extintor['id_serie'];?></i> - Selo Inmetro: <i><?php echo $extintor['tx_inmetro'];?></i></h4>
+                <h4><i class="nav-icon cui-calendar"></i> Última Inspeção: <?php echo $inspecao['dt_inspecao'];?> <i class="text-warning text-sm"> <?php echo $inspecao['msg'];?></i></h4>
+                <h4 class="text-primary"><i class="nav-icon cui-calendar"></i> Vencimento N2 (Carga): <?php echo $extintor['dt_vencimenton2'];?></h4>
+                <h4 class="text-danger"><i class="nav-icon cui-calendar"></i> Vencimento N3 (Hidrostático): <?php echo $extintor['dt_vencimenton3'];?></h4>
                 <div class="card" <?php if($resp == 1 || $inspecao['insp_block'] == 1) echo "hidden";?>>
 					<div class="card-header">
 						<h3 class="text-xl"><i class="nav-icon cui-note"></i> NÃO CONFORMIDADES: </h3>
