@@ -1,5 +1,140 @@
 [
     {
+        "name": "chillerlan/php-qrcode",
+        "version": "5.0.2",
+        "version_normalized": "5.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/chillerlan/php-qrcode.git",
+            "reference": "da5bdb82c8755f54de112b271b402aaa8df53269"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/chillerlan/php-qrcode/zipball/da5bdb82c8755f54de112b271b402aaa8df53269",
+            "reference": "da5bdb82c8755f54de112b271b402aaa8df53269",
+            "shasum": ""
+        },
+        "require": {
+            "chillerlan/php-settings-container": "^2.1.4 || ^3.1",
+            "ext-mbstring": "*",
+            "php": "^7.4 || ^8.0"
+        },
+        "require-dev": {
+            "chillerlan/php-authenticator": "^4.1 || ^5.1",
+            "phan/phan": "^5.4",
+            "phpmd/phpmd": "^2.15",
+            "phpunit/phpunit": "^9.6",
+            "setasign/fpdf": "^1.8.2",
+            "squizlabs/php_codesniffer": "^3.8"
+        },
+        "suggest": {
+            "chillerlan/php-authenticator": "Yet another Google authenticator! Also creates URIs for mobile apps.",
+            "setasign/fpdf": "Required to use the QR FPDF output.",
+            "simple-icons/simple-icons": "SVG icons that you can use to embed as logos in the QR Code"
+        },
+        "time": "2024-02-27T14:37:26+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "chillerlan\\QRCode\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT",
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Kazuhiko Arase",
+                "homepage": "https://github.com/kazuhikoarase/qrcode-generator"
+            },
+            {
+                "name": "ZXing Authors",
+                "homepage": "https://github.com/zxing/zxing"
+            },
+            {
+                "name": "Ashot Khanamiryan",
+                "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder"
+            },
+            {
+                "name": "Smiley",
+                "email": "smiley@chillerlan.net",
+                "homepage": "https://github.com/codemasher"
+            },
+            {
+                "name": "Contributors",
+                "homepage": "https://github.com/chillerlan/php-qrcode/graphs/contributors"
+            }
+        ],
+        "description": "A QR code generator and reader with a user friendly API. PHP 7.4+",
+        "homepage": "https://github.com/chillerlan/php-qrcode",
+        "keywords": [
+            "phpqrcode",
+            "qr",
+            "qr code",
+            "qr-reader",
+            "qrcode",
+            "qrcode-generator",
+            "qrcode-reader"
+        ]
+    },
+    {
+        "name": "chillerlan/php-settings-container",
+        "version": "2.1.5",
+        "version_normalized": "2.1.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/chillerlan/php-settings-container.git",
+            "reference": "f705310389264c3578fdd9ffb15aa2cd6d91772e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/chillerlan/php-settings-container/zipball/f705310389264c3578fdd9ffb15aa2cd6d91772e",
+            "reference": "f705310389264c3578fdd9ffb15aa2cd6d91772e",
+            "shasum": ""
+        },
+        "require": {
+            "ext-json": "*",
+            "php": "^7.4 || ^8.0"
+        },
+        "require-dev": {
+            "phan/phan": "^5.4",
+            "phpcsstandards/php_codesniffer": "^3.8",
+            "phpmd/phpmd": "^2.13",
+            "phpunit/phpunit": "^9.6"
+        },
+        "time": "2024-01-05T23:20:55+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "chillerlan\\Settings\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Smiley",
+                "email": "smiley@chillerlan.net",
+                "homepage": "https://github.com/codemasher"
+            }
+        ],
+        "description": "A container class for immutable settings objects. Not a DI container. PHP 7.4+",
+        "homepage": "https://github.com/chillerlan/php-settings-container",
+        "keywords": [
+            "PHP7",
+            "Settings",
+            "configuration",
+            "container",
+            "helper"
+        ]
+    },
+    {
         "name": "firebase/php-jwt",
         "version": "v6.10.0",
         "version_normalized": "6.10.0.0",
@@ -58,6 +193,80 @@
         "keywords": [
             "jwt",
             "php"
+        ]
+    },
+    {
+        "name": "setasign/fpdf",
+        "version": "1.8.6",
+        "version_normalized": "1.8.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Setasign/FPDF.git",
+            "reference": "0838e0ee4925716fcbbc50ad9e1799b5edfae0a0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Setasign/FPDF/zipball/0838e0ee4925716fcbbc50ad9e1799b5edfae0a0",
+            "reference": "0838e0ee4925716fcbbc50ad9e1799b5edfae0a0",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*",
+            "ext-zlib": "*"
+        },
+        "time": "2023-06-26T14:44:25+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "fpdf.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Olivier Plathey",
+                "email": "oliver@fpdf.org",
+                "homepage": "http://fpdf.org/"
+            }
+        ],
+        "description": "FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
+        "homepage": "http://www.fpdf.org",
+        "keywords": [
+            "fpdf",
+            "pdf"
+        ]
+    },
+    {
+        "name": "simple-icons/simple-icons",
+        "version": "13.0.0",
+        "version_normalized": "13.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/simple-icons/simple-icons.git",
+            "reference": "256e116a20351f119e1fc5e15d69e2d77a44b695"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/simple-icons/simple-icons/zipball/256e116a20351f119e1fc5e15d69e2d77a44b695",
+            "reference": "256e116a20351f119e1fc5e15d69e2d77a44b695",
+            "shasum": ""
+        },
+        "time": "2024-06-30T18:42:31+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "CC0-1.0"
+        ],
+        "description": "SVG icons for popular brands",
+        "homepage": "https://simpleicons.org/",
+        "keywords": [
+            "icons",
+            "svg"
         ]
     }
 ]

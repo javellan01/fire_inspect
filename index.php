@@ -8,12 +8,12 @@ if(!isset($_SESSION["login"]) || !isset($_SESSION["usuario"]) || !isset($_SESSIO
 		{ 
 	// Usuário não logado! Redireciona para a página de login 
 		header("Location: login.php"); 
-		exit; 
+		exit(); 
 	} 
 	else{
 		if($_SESSION['temp-k'] == $key['key']) header('Location: central.php');
 		
-		exit; 
+		exit(); 
 	}	
 		
 ?>

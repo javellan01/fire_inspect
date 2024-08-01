@@ -3,10 +3,9 @@
 require("./controller/extintorController.php");
 
 $ext = $_REQUEST['q'];
-if(!$string){
+if(!$ext){
     header('Location: https://www.firesystems-am.com.br');
 }
-//$ext = base64_decode_url($string);
 
 // Inicia sessões
 session_start(); 

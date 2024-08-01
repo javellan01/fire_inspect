@@ -1,4 +1,5 @@
 <?php 
+	$key = include("./config/key.php");
 	// Inicia sessões
 	session_start(); 
 	//echo session_status(); 
@@ -8,8 +9,17 @@
 	// Usuário não logado! Redireciona para a página de login 
 		header("Location: login.php"); 
 		exit(); 
-	} 
+	}
 
+	$access = $_SESSION['temp-k'];
+	//echo session_status(); 
+	// Verifica se existe os dados da sessão de login 
+	if($access  !== $key['key']){
+	// Usuário não logado! Redireciona para a página de login 
+        header("Location: login.php"); 	
+        exit();
+	} 
+	
 	if($_SESSION['ativo'] == 0){
 		header('HTTP/1.1 403 Forbidden');
 		exit(); 
@@ -66,10 +76,6 @@
 		<script src="./dist/fullcalendar/main.min.js"></script>
 		<script src="./dist/fullcalendar/pt-br.js"></script>
 		<script src="./dist/spectrum/spectrum.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-	<!-- AJAX Scriping for loading dynamically PHP on server -->
-		<script src="./assets/js/central.js"></script>
 
 
 </head>

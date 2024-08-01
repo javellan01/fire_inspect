@@ -242,7 +242,7 @@
 		
 		display: none; /* Hidden by default */
 		position: fixed; /* Stay in place */
-		z-index: 1; /* Sit on top */
+		z-index: 10; /* Sit on top */
 		left: 0;
 		top: 0;
 		width: 100%; /* Full width */
@@ -337,7 +337,7 @@
 			<input type="text" id="teste" name="usuario" placeholder="eg. 000.000.000-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" max-lenght="14" /> 
 <!---->
 				</div>
-				<button type="submit" class="login-button">Entrar</button>
+				<button type="submit" id="subm" class="login-button">Entrar</button>
 			</form>
 			<?php if($extintor != ''){
 				echo '<br><button id="openModal">Modo Visitante: Ver Detalhes do QR Code</button>';
@@ -384,6 +384,9 @@
 			return false;
 			});
 
+			var inusuario = document.getElementById("usuario");
+			var insenha = document.getElementById("senha");
+			var btnenter = document.getElementById("subm");
 			// Get the modal
 			var modal = document.getElementById("qrModal");
 
@@ -394,16 +397,25 @@
 			// When the user clicks on the button, open the modal
 			btn.onclick = function() {
 			modal.style.display = "block";
+				insenha.disabled = true;
+				inusuario.disabled = true;
+				inbtnenter.disabled = true;
 			}
 
 			csbtn.onclick = function() {
 			modal.style.display = "none";
+				insenha.disabled = false;
+				inusuario.disabled = false;
+				inbtnenter.disabled = false;
 			}
 
 			// When the user clicks anywhere outside of the modal, close it
 			window.onclick = function(event) {
 			if (event.target == modal) {
 				modal.style.display = "none";
+				insenha.disabled = false;
+				inusuario.disabled = false;
+				inbtnenter.disabled = false;
 			}
 			}
 

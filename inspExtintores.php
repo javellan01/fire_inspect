@@ -12,6 +12,7 @@ $key = include("./config/key.php");
         header("Location: login.php"); 	
         exit();
 	} 
+
     if(!$_SESSION['extintor']){
         header("Location: central.php");
         exit();
@@ -151,7 +152,9 @@ $key = include("./config/key.php");
 	<link rel="stylesheet" href="./assets/css/jquery-ui.min.css">
 	<link rel="stylesheet" href="./dist/css/coreui.min.css">
 	<link rel="stylesheet" href="./dist/css/coreui-icons.min.css">
-
+	<link rel="stylesheet" href="./assets/css/insp-custom.css">
+    
+		<script src="./assets/js/insp-custom.js"></script>
 		<script src="./assets/js/jquery-3.6.0.min.js"></script>
 		<script src="./assets/js/jquery-ui.min.js"></script>
 		<script src="./assets/js/jquery.ajax.form.js"></script>

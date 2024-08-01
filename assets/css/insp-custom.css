@@ -1,0 +1,117 @@
+body{
+    font-family: Josefin Sans; 
+    font-weight: 400; 
+    background-color: #1b2853; 
+    color: #eee;
+}
+.top-nav{
+    margin: auto; 
+    text-align: left; 
+    width: 100%; 
+    border: 2px solid #f3ce75;  
+    border-radius: 5px; 
+    padding: 4px;
+    max-width: 1024px;
+}
+.calc-area{
+    margin: auto;
+    width: 75%;
+    background-color: #18244A; 
+    border: solid 2px #ff2975; 
+    border-radius: 16px;
+    transition: transform 250ms;
+    max-width: 600px;
+}
+.calc-area:hover{
+    background-color: #13477d; 
+    transform: scale(1.05);
+    border: solid 3px #ff2975; 
+}
+.update{
+    color: #faebc7;
+}
+.title {
+    color: white;
+}
+.resultado{
+   padding-top: 5px;
+   font-size: 1.20em;
+}
+.cotage{
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    margin: auto;
+    max-width: 600px;
+    text-align: center;
+    display: box;
+}
+.basic-grid {
+    margin: auto;
+    max-width: 600px;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+ }
+ .card {
+    padding: 0.3rem; 
+    background-color: #18244A; 
+    border: solid 1px #ffffff; 
+    border-radius: 8px;
+    transition: transform 250ms;
+ }
+ .card:hover {
+    background-color: #13477d;
+    border: solid 2px #FF901F;
+    transform: scale(1.05);
+ }
+ .selected {
+    background-color: #13477d;
+    border: solid 2px #FF901F;
+    transform: scale(1.05);
+ }
+ .PR{
+     color: #ffe05d;
+     border: solid 1px #ffe05d; 
+ }
+ .A1, .D1{
+     color: #ffb263;
+     border: solid 1px #ffb263; 
+ }
+ .D2, .R1, .S1{
+     color: #ff6da1;
+     border: solid 1px #ff6da1; 
+ }
+ .GA, .SX1, .X1{
+     color: #f666ff;
+     border: solid 1px #f666ff; 
+ }
+ .BC, .DE1, .OC{
+     color: #04c4ca;
+     border: solid 1px #04c4ca; 
+ }
+ .GB{
+     color: #00e78a;
+     border: solid 1px #00e78a;
+ }
+ input {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  font-size: 16px;
+  display: inline-block;
+  color: white;
+  transition-duration: 0.25s;
+  font-weight: 300;
+}
+input:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+input:focus {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 41, 117, 0.5);    
+  
+}
