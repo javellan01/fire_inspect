@@ -16,8 +16,10 @@
 
 	date_default_timezone_set('America/Manaus');
 
-    $inspecao = getExtLastInspection($conn,$ext);
+    
     $extintor = getExtintorBasic($conn,$ext);
+	$ext = $extintor['id_serie'];
+	$inspecao = getExtLastInspection($conn,$ext);
 
 	unset($_SESSION['extintor']);
 	}
@@ -136,7 +138,7 @@
 		  text-align: center;
 		  font-size: 18px;
 		  color: white;
-		  transition-duration: 0.25s;
+		  transition: transform 250ms;
 		  font-weight: 300;
 		}
 		form input:hover {
@@ -148,9 +150,6 @@
 		  color: #004472;
 		}
 		form button {
-		  -webkit-appearance: none;
-		     -moz-appearance: none;
-		          appearance: none;
 		  outline: 0;
 		  background-color: white;
 		  border: 0;
@@ -160,7 +159,7 @@
 		  width: 250px;
 		  cursor: pointer;
 		  font-size: 18px;
-		  transition-duration: 0.25s;
+		  transition: transform 250ms;
 		}
 		form button:hover {
 		  background-color: #f5f7f9;
@@ -176,10 +175,11 @@
 		  width: 250px;
 		  cursor: pointer;
 		  font-size: 18px;
-		  transition-duration: 0.25s;
+		  transition: transform 250ms;
 		}
 		button:hover {
 		  background-color: #eee;
+		  transform: scale(1.08);
 		}
 		.footer {
 		  display: flex;

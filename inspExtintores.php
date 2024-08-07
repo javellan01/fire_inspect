@@ -29,12 +29,17 @@ $key = include("./config/key.php");
     require("./controller/extintorController.php");
 
 	date_default_timezone_set('America/Manaus');
-    $inspecao = getExtLastInspection($conn,$ext);
-    $extintor = getExtintor($conn,$ext);
     
+    $extintor = getExtintor($conn,$ext);
+    if($extintor){
+        $ext = $extintor['id_serie'];
+    }
+    
+    $inspecao = getExtLastInspection($conn,$ext);
+
     if(isset($_POST['submit']) && $_POST['submit'] == 'submit'){
         $data['nb_desvio'] = 0;
-        $data['id_serie'] = $_SESSION['extintor'];
+        $data['id_serie'] = $extintor['id_serie'];
         $data['comentario'] = $_POST['comentario'];
         $data['bombeiro'] = $_SESSION['userid'];
         $data['predio'] = $extintor['tx_predio'];
@@ -219,7 +224,7 @@ $key = include("./config/key.php");
                 <h4 class="text-danger"><i class="nav-icon cui-calendar"></i> Vencimento N3 (Hidrostático): <?php echo $extintor['dt_vencimenton3'];?></h4>
                 <div class="card" <?php if($resp == 1 || $inspecao['insp_block'] == 1) echo "hidden";?>>
 					<div class="card-header">
-						<h3 class="text-xl"><i class="nav-icon cui-note"></i> NÃO CONFORMIDADES: </h3>
+						<h3 class="text-xl"><i class="nav-icon cui-note"></i> NÃO CONFORMIDADES: ({{ multi.counter }} )</h3>
 					</div>   
 				<div class='card-body'>
                 <section class="m-2" 
@@ -398,12 +403,12 @@ $key = include("./config/key.php");
             this.textFile = event.target.value;
         };
 
-        const multi = {
+        const multi = reactive({
             textData: "",
-            codCliente: ""
-        };
-
-        createApp({  multi }).mount("#inspEnvioMulti");
+            counter: 0
+        });
+        
+                createApp({  multi }).mount("#inspEnvioMulti");
 
         const checkList = document.querySelectorAll("input[type='checkbox']");
         const textArea = document.getElementById("inputComentario");
@@ -420,6 +425,7 @@ $key = include("./config/key.php");
             
         }
             counter == 0 ? textArea.hidden = true : textArea.hidden = false;
+            multi.counter = counter;
         };
     </script>
  </body> 

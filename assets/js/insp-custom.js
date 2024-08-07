@@ -17,44 +17,10 @@ var opt_map = new Map([
     ]);
 var selected = '';
 
-
-function setSelected(element,string){
-    if(selected){
-         $(selected).removeClass("selected");
-    }
-    selected = string;
-    $(element).addClass("selected");
-}
-
 $(function(){
 
-
-
-$('select#selIndice').on('change', function () {
-    let string = ".";
-    string = string.concat(this.options[this.selectedIndex].text);
-    let el = $(string);
-    setSelected(el,string);
-}); 
-
-
-$('input#custom').on('keyup', function () {
-    document.querySelector('select#selIndice').options[14].selected = true;
-    let value_c = this.value;
-    document.querySelector('select#selIndice').options[14].value = value_c;
-});
-
-$('.card').on('click', function() {
-    let string = ".";
-    string = string.concat(this.classList[1]);
-    setSelected(this,string);
-    let index = opt_map.get(string);
-    document.querySelector('select#selIndice').options[index].selected = true;
-    if( index == 14){
-        let value = $('input#custom').val();
-        document.querySelector('select#selIndice').options[index].value = value;
-    }
-    
+$('.btn-outline-danger').on('click', function() {
+    $( this ).toggleClass( "active" );
 });
 
 });
