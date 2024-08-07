@@ -72,11 +72,15 @@ function getExtLastInspection($conn,$ext){
 
 function getExtintor($conn,$ext){
 
-    $stmt = $conn->prepare("SELECT map.tx_predio, map.tx_area, map.tx_localiz, inm.tx_inmetro, ext.id_serie, ext.tx_tipo, ext.tx_capacidade, ext.bool_carreta, ext.cs_estado, cli.tx_nome, ext.id_cliente, ext.uuid, DATE_FORMAT(ext.dt_vencimenton2, '%d/%m/%Y') AS dt_vencimenton2, DATE_FORMAT(ext.dt_vencimenton3, '%d/%m/%Y') AS dt_vencimenton3
+    $stmt = $conn->prepare("SELECT map.tx_predio, map.tx_area, map.tx_localiz, 
+                        inm.tx_inmetro, ext.id_serie, ext.tx_tipo, ext.tx_capacidade, 
+                        ext.bool_carreta, ext.cs_estado, cli.tx_nome, ext.id_cliente, ext.uuid, 
+                        DATE_FORMAT(ext.dt_vencimenton2, '%d/%m/%Y') AS dt_vencimenton2, 
+                        DATE_FORMAT(ext.dt_vencimenton3, '%d/%m/%Y') AS dt_vencimenton3
                         FROM extintores AS ext
                         INNER JOIN cliente AS cli ON ext.id_cliente = cli.id_cliente
-                        INNER JOIN extintores_inm AS inm ON ext.id_serie = inm.id_serie
-                        INNER JOIN cliente_map AS map ON ext.id_serie = map.id_serie
+                        LEFT JOIN extintores_inm AS inm ON ext.id_serie = inm.id_serie
+                        LEFT JOIN cliente_map AS map ON ext.id_serie = map.id_serie
                         WHERE ext.uuid LIKE :uuid");
     $stmt->bindParam(':uuid', $ext);  
     $stmt->execute();
@@ -125,7 +129,7 @@ function getExtintorBasic($conn,$ext){
 
     $stmt = $conn->prepare("SELECT inm.tx_inmetro, ext.id_serie, ext.uuid, ext.tx_tipo, ext.tx_capacidade, ext.bool_carreta, ext.cs_estado
                         FROM extintores AS ext
-                        INNER JOIN extintores_inm AS inm ON ext.id_serie = inm.id_serie
+                        LEFT JOIN extintores_inm AS inm ON ext.id_serie = inm.id_serie
                         WHERE ext.uuid LIKE :uuid");
     $stmt->bindParam(':uuid', $ext);  
     $stmt->execute();
