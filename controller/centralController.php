@@ -39,7 +39,7 @@
                               FROM extintores_insp 
                               WHERE id_bombeiro = $id_bombeiro
                               GROUP BY data_inspecao
-                              HAVING COUNT(*) > 1;
+                              HAVING COUNT(*) > 0;
                               ");
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

@@ -136,7 +136,7 @@
 	
 	<footer class="app-footer">
 		<div>
-		<a href="http://www.firesystems-am.com.br">FireSystems-AM</a>
+		<a href="https://www.firesystems-am.com.br" target="_blank">FireSystems-AM</a>
 		<span>©2024 Produtos e Serviços Contra Incêndio </span>
 		</div>
 		<div class="ml-auto">

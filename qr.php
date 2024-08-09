@@ -161,18 +161,25 @@ header('Content-type: text/html');
             width: 75%;
             border: solid 3px #154889; 
             border-radius: 20px;
+            
         }
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            }
 	</style>
 </head>
 <body>
     <div class='basic-grid'>
     <?php for( $index = 0; $index < 20; $index++){
         echo '<div id="refl" class="qr-area"><span>';
-        echo $extintores[$index]['bool_carreta'].$extintores[$index]['tx_tipo']." : ".$extintores[$index]['id_serie'];
-        echo '</span><img src="'.$svg_buffer[$index].'"/><span>'.$extintores[$index]['uuid'].'</span></div>';
-        echo $extintores[$index]['uuid'];
+        echo $extintores[$index]['bool_carreta'].$extintores[$index]['tx_tipo']." : ".$extintores[$index]['uuid'];
+        echo '</span><img src="'.$svg_buffer[$index].'"/><span><img src="https://firesystems-am.com.br/wp-content/uploads/2020/06/FIRE-LOGO.png" alt="FIRE-AM" width="202" height="68"></img></span></div>';
     }
         ?>
+        
     </div>
 </body>
 </html>

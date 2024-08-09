@@ -34,7 +34,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<script src="./assets/js/jquery-3.6.0.min.js"></script>
-	<script src="./assets/js/jquery.mask.js"></script>
+	<script src="./assets/js/jquery.mask.min.js"></script>
 	<script src="./assets/js/md5.min.js"></script>
 	<style type="text/css">
 		@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
@@ -100,7 +100,7 @@
 		.container {
 		  max-width: 100%;
 		  margin: 0 auto;
-		  padding: 36vh 0 22vh 0;
+		  padding: 24vh 0 22vh 0;
 		  height: 100vh;
 		  text-align: center;
 		}
@@ -152,17 +152,17 @@
 		form button {
 		  outline: 0;
 		  background-color: white;
-		  border: 0;
 		  padding: 10px 15px;
 		  color: #004472;
-		  border-radius: 3px;
+		  border: 2px solid #004472;
 		  width: 250px;
 		  cursor: pointer;
 		  font-size: 18px;
 		  transition: transform 250ms;
 		}
 		form button:hover {
-		  background-color: #f5f7f9;
+		  background-color: #004472;
+		  color: white;
 		}
 		button {
 		  appearance: none;
@@ -178,8 +178,12 @@
 		  transition: transform 250ms;
 		}
 		button:hover {
-		  background-color: #eee;
-		  transform: scale(1.08);
+
+		  transform: scale(1.09);
+		}
+		#openModal:hover, #closeModal:hover {
+			background-color: FireBrick;
+			color: white;
 		}
 		.footer {
 		  display: flex;
@@ -302,7 +306,7 @@
 			<div>
 			<span></span>
 			</div>
-			<a style="margin-left: auto" href="http://www.firesystems-am.com.br/">
+			<a style="margin-left: auto" href="https://www.firesystems-am.com.br/" target="_blank">
 			<img src="https://firesystems-am.com.br/wp-content/uploads/2020/06/FIRE-LOGO.png" alt="FIRE-AM" width="202" height="68">
 			</a>
 		</div>
@@ -323,7 +327,7 @@
 			<form class="acessoOnline" autocomplete="off" method="POST" action="agent.php">
 				<div>
 				
-					<input type="text" name="usuario" id="usuario" placeholder="Identificação de Usuário" autocomplete="nope" />
+					<input type="text" name="usuario" id="usuario" placeholder="Identificação de Usuário" autocomplete="nope"  max-lenght="14"/>
 					<input type="text" name="fakeusernameremembered" style="display:none" />
 					
 				</div>
@@ -347,7 +351,7 @@
 		
 		<div class="footer">
 			<div>
-			<a href="http://www.firesystems-am.com.br">FireSystems-AM</a>
+			<a href="https://www.firesystems-am.com.br" target="_blank">FireSystems-AM</a>
 	     	<span>©2024 Produtos e Serviços Contra Incêndio </span>
 			</div>
 		</div>
@@ -374,8 +378,10 @@
 	</div>	
 
 	<script type="text/javascript">
-		$(document).ready(function(){
-		//$('#usuario').mask('000.000.000-00');
+		
+		
+		$(function(){	
+			
 		
 		$(".login-button").submit(function(event){
 
@@ -419,10 +425,12 @@
 			}
 			}
 
-
+			
 		});	
 
-
+		$('document').ready(function(){
+			$('input#usuario').mask('000.000.000-00');
+		});		
 	</script>
 
 </body>

@@ -34,6 +34,7 @@ class ComposerStaticInit15352228b416fdc83840a10d6dfb3f62
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'FPDF' => __DIR__ . '/..' . '/setasign/fpdf/fpdf.php',
     );
 

@@ -47,7 +47,9 @@
  .btn:hover {
     transform: scale(1.08);
  }
-
+ .inconf{
+  color: firebrick;
+ }
   input {
   outline: 0;
   border: 1px solid rgba(255, 255, 255, 0.4);

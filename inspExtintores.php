@@ -159,12 +159,13 @@ $key = include("./config/key.php");
 	<link rel="stylesheet" href="./dist/css/coreui-icons.min.css">
 	<link rel="stylesheet" href="./assets/css/insp-custom.css">
     
-		<script src="./assets/js/insp-custom.js"></script>
+		
 		<script src="./assets/js/jquery-3.6.0.min.js"></script>
 		<script src="./assets/js/jquery-ui.min.js"></script>
 		<script src="./assets/js/jquery.ajax.form.js"></script>
 		<script src="./dist/js/bootstrap.bundle.min.js"></script>
 		<script src="./assets/js/coreui.min.js"></script>
+        <script src="./assets/js/insp-custom.js"></script>
 
 </head>
 
@@ -224,7 +225,7 @@ $key = include("./config/key.php");
                 <h4 class="text-danger"><i class="nav-icon cui-calendar"></i> Vencimento N3 (Hidrostático): <?php echo $extintor['dt_vencimenton3'];?></h4>
                 <div class="card" <?php if($resp == 1 || $inspecao['insp_block'] == 1) echo "hidden";?>>
 					<div class="card-header">
-						<h3 class="text-xl"><i class="nav-icon cui-note"></i> NÃO CONFORMIDADES: ({{ multi.counter }} )</h3>
+						<h3 class="text-xl"><i class="nav-icon cui-note"></i> NÃO CONFORMIDADES: ( <span class="inconf">{{ multi.counter }}</span> )</h3>
 					</div>   
 				<div class='card-body'>
                 <section class="m-2" 
