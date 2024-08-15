@@ -1,17 +1,14 @@
 <?php
-	function data_usqlS($data) {
-		$ndata = substr($data, 8, 2) ."/". substr($data, 5, 2) ."/".substr($data, 0, 4);
-		return $ndata;
-	} 
+
+require_once 'vendor/autoload.php';
+use Hidehalo\Nanoid\Client;
+use Hidehalo\Nanoid\GeneratorInterface;
+
+function data_usqlS($data) {
+    $ndata = substr($data, 8, 2) ."/". substr($data, 5, 2) ."/".substr($data, 0, 4);
+    return $ndata;
+} 
 	
-function base64_encode_url($string) {
-    return str_replace(['+','/','='], ['-','_',''], base64_encode($string));
-}
-
-function base64_decode_url($string) {
-    return base64_decode(str_replace(['-','_'], ['+','/'], $string));
-}
-
 //Recebe data atual e limite em dias, e verifica data atual está dentro do limite ou não
 function toInspect($current_date, $limit){
 
@@ -76,7 +73,7 @@ function getExtintor($conn,$ext){
                         inm.tx_inmetro, ext.id_serie, ext.tx_tipo, ext.tx_capacidade, 
                         ext.bool_carreta, ext.cs_estado, cli.tx_nome, ext.id_cliente, ext.uuid, 
                         DATE_FORMAT(ext.dt_vencimenton2, '%d/%m/%Y') AS dt_vencimenton2, 
-                        DATE_FORMAT(ext.dt_vencimenton3, '%d/%m/%Y') AS dt_vencimenton3
+                        ext.dt_vencimenton3
                         FROM extintores AS ext
                         INNER JOIN cliente AS cli ON ext.id_cliente = cli.id_cliente
                         LEFT JOIN extintores_inm AS inm ON ext.id_serie = inm.id_serie
@@ -224,7 +221,7 @@ function insertInspecaoExtintor($conn,$data){
 }
 
 function insertExtintores($conn,$data){
-
+    $uuid_client = new Client();
     $e = null;
     $pieceCount = 0;
     $pieceList = array();
@@ -232,7 +229,7 @@ function insertExtintores($conn,$data){
     $str = $data['textData'];
     $cliente = $data['codCliente'];
 
-    $regCodigo = '/(.*),(.*),(.*),(.*),(.*),(.*),(.*)/';
+    $regCodigo = '/(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*)/';
     preg_match_all($regCodigo,$str,$pieceList);
 
     //$regCodigo = '/[A-Z]{1}[a-z]{2,}.*/';
@@ -250,14 +247,14 @@ function insertExtintores($conn,$data){
     try{
         $conn->beginTransaction();
 
-        $stmt = $conn->prepare("INSERT INTO extintores (id_serie, tx_tipo, tx_capacidade, bool_carreta, id_cliente, base64_serie )
-                        VALUES (:id_serie, :tx_tipo, :tx_capacidade, :bool_carreta, :id_cliente, :base64_serie );
+        $stmt = $conn->prepare("INSERT INTO extintores (id_serie, tx_tipo, tx_capacidade, bool_carreta, id_cliente, uuid, dt_vencimenton2, dt_vencimenton3)
+                        VALUES (:id_serie, :tx_tipo, :tx_capacidade, :bool_carreta, :id_cliente, :uuid, :dt_vencimenton2, :dt_vencimenton3);
                             ");
         $stmt2 = $conn->prepare("INSERT INTO extintores_inm (id_serie, tx_inmetro)
                         VALUES (:id_serie, :tx_inmetro);
                         ");
-        $stmt3 = $conn->prepare("INSERT INTO cliente_map (id_serie, id_cliente, tx_predio, tx_area, tx_localiz)
-                        VALUES (:id_serie, :id_cliente, :tx_predio, :tx_area, :tx_localiz);
+        $stmt3 = $conn->prepare("INSERT INTO cliente_map (id_serie, id_cliente, tx_area, tx_localiz)
+                        VALUES (:id_serie, :id_cliente, :tx_area, :tx_localiz);
                         ");
     //array 1 => 0 => numero de serie
     //array 2 => 0 => tipo
@@ -266,31 +263,38 @@ function insertExtintores($conn,$data){
     //array 5 => 0 => predio
     //array 6 => 0 => area
     //array 7 => 0 => localizacao
+    //array 8 => 0 => ano
     for($i = 0; $i < $pieceCount ; $i++){
-        $base64 = "";
-        $base64 = base64_encode_url($pieceList[1][$i]);
+        $uuid = "";
+        $uuid = $uuid_client->formattedId($alphabet = '0123456789abcdefghijklmnopqrstuvwxyzQWERTYUIOPLKJHGFDSAZXCVBNM', $size = 9);
         $numeric = "";
         preg_match('/(\d*)/', $pieceList[3][$i] , $numeric);
         $numeric = $numeric[0] + 0;
-        echo "<br>Listagem de parametros: Extintor count:".$i."<br>";
-        echo $pieceList[1][$i]."<br>";
-        echo $base64."<br>";  
-        echo $pieceList[2][$i]."<br>";  
-        echo $pieceList[3][$i]."<br>";  
-        echo $pieceList[4][$i]."<br>";  
-        echo $pieceList[5][$i]."<br>";  
-        echo $pieceList[6][$i]."<br>";  
-        echo $pieceList[7][$i]."<br>";
+        $pieceList[1][$i] .= "/".$pieceList[7][$i];
+
+          echo "<br>Listagem de parametros: Extintor count:".$i."<br>";
+          echo $pieceList[1][$i]."<br>";
+     //   echo $uuid."<br>";  
+     //   echo $pieceList[2][$i]."<br>";  
+     //   echo $pieceList[3][$i]."<br>";  
+      //  echo $pieceList[4][$i]."<br>";  
+     //   echo $pieceList[5][$i]."<br>";  
+      //  echo $pieceList[6][$i]."<br>";  
+      //  echo $pieceList[7][$i]."<br>";
+      //  echo $pieceList[8][$i]."<br>";
+       // echo $pieceList[9][$i]."<br>";
         if($numeric > 15){
-            echo "Carreta<br>";
+            //echo "Carreta<br>";
         }
         else{
-            echo "Extintor Portátil<br>";
+           // echo "Extintor Portátil<br>";
         }
 
         $stmt->bindParam(':id_serie', $pieceList[1][$i]);  
         $stmt->bindParam(':tx_tipo', $pieceList[2][$i]);  
         $stmt->bindParam(':tx_capacidade', $pieceList[3][$i]);     
+        $stmt->bindParam(':dt_vencimenton2', $pieceList[8][$i]);     
+        $stmt->bindParam(':dt_vencimenton3', $pieceList[9][$i]);     
         if($numeric > 15){
             $stmt->bindValue(':bool_carreta',1);
         }
@@ -298,16 +302,15 @@ function insertExtintores($conn,$data){
             $stmt->bindValue(':bool_carreta',0);
         }
         $stmt->bindParam(':id_cliente', $cliente);
-        $stmt->bindParam(':base64_serie', $base64);
-
+        $stmt->bindParam(':uuid', $uuid);
+        
         $stmt2->bindParam(':id_serie', $pieceList[1][$i]);
         $stmt2->bindParam(':tx_inmetro', $pieceList[4][$i]);
         
         $stmt3->bindParam(':id_serie', $pieceList[1][$i]); 
         $stmt3->bindParam(':id_cliente', $cliente);
-        $stmt3->bindParam(':tx_predio', $pieceList[5][$i]);
-        $stmt3->bindParam(':tx_area', $pieceList[6][$i]);
-        $stmt3->bindParam(':tx_localiz', $pieceList[7][$i]);
+        $stmt3->bindParam(':tx_area', $pieceList[5][$i]);
+        $stmt3->bindParam(':tx_localiz', $pieceList[6][$i]);
 
         $stmt->execute();
         $stmt2->execute();

@@ -36,6 +36,7 @@
 	<script src="./assets/js/jquery-3.6.0.min.js"></script>
 	<script src="./assets/js/jquery.mask.min.js"></script>
 	<script src="./assets/js/md5.min.js"></script>
+	<script src="./assets/js/login.js"></script>
 	<style type="text/css">
 		@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 		* {
@@ -376,62 +377,5 @@
 		</div>
 		</div>
 	</div>	
-
-	<script type="text/javascript">
-		
-		
-		$(function(){	
-			
-		
-		$(".login-button").submit(function(event){
-
-			var usuario = $("input#usuario").val();
-			var senha = $("input#senha").val();
-			return false;
-			});
-
-			var inusuario = document.getElementById("usuario");
-			var insenha = document.getElementById("senha");
-			var btnenter = document.getElementById("subm");
-			// Get the modal
-			var modal = document.getElementById("qrModal");
-
-			// Get the button that opens the modal
-			var btn = document.getElementById("openModal");
-			var csbtn = document.getElementById("closeModal");
-
-			// When the user clicks on the button, open the modal
-			btn.onclick = function() {
-			modal.style.display = "block";
-				insenha.disabled = true;
-				inusuario.disabled = true;
-				inbtnenter.disabled = true;
-			}
-
-			csbtn.onclick = function() {
-			modal.style.display = "none";
-				insenha.disabled = false;
-				inusuario.disabled = false;
-				inbtnenter.disabled = false;
-			}
-
-			// When the user clicks anywhere outside of the modal, close it
-			window.onclick = function(event) {
-			if (event.target == modal) {
-				modal.style.display = "none";
-				insenha.disabled = false;
-				inusuario.disabled = false;
-				inbtnenter.disabled = false;
-			}
-			}
-
-			
-		});	
-
-		$('document').ready(function(){
-			$('input#usuario').mask('000.000.000-00');
-		});		
-	</script>
-
 </body>
 </html>

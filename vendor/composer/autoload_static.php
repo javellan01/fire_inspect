@@ -12,6 +12,10 @@ class ComposerStaticInit15352228b416fdc83840a10d6dfb3f62
             'chillerlan\\Settings\\' => 20,
             'chillerlan\\QRCode\\' => 18,
         ),
+        'H' => 
+        array (
+            'Hidehalo\\Nanoid\\' => 16,
+        ),
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
@@ -26,6 +30,10 @@ class ComposerStaticInit15352228b416fdc83840a10d6dfb3f62
         'chillerlan\\QRCode\\' => 
         array (
             0 => __DIR__ . '/..' . '/chillerlan/php-qrcode/src',
+        ),
+        'Hidehalo\\Nanoid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hidehalo/nanoid-php/src',
         ),
         'Firebase\\JWT\\' => 
         array (

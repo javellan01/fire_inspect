@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 
 require("./DB/conn.php");
 require("./controller/extintorController.php");

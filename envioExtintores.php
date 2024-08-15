@@ -2,15 +2,15 @@
     header("Location: login.php"); 
     exit();
 	// Inicia sessões
-	session_start(); 
+	//session_start(); 
 	//echo session_status(); 
 	// Verifica se existe os dados da sessão de login 
-	if(!isset($_SESSION["login"]) || !isset($_SESSION["usuario"])) 
-		{ 
+	//if(!isset($_SESSION["login"]) || !isset($_SESSION["usuario"])) 
+	//	{ 
 	// Usuário não logado! Redireciona para a página de login 
-		header("Location: login.php"); 
-		exit; 
-	} 
+	//	header("Location: login.php"); 
+	//	exit; 
+	//} 
 
 	header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
 	header("Pragma: no-cache"); // HTTP 1.0.
@@ -45,9 +45,9 @@
                 <input v-model="multi.codCliente" class="text-xl border-2 rounded mx-3 my-3 p-3 shadow" 
                 maxlength="2" required type="number"> 
                 </h3>
-                <h3 class="text-xl">Texto Completo: ( {{multi.textData.length}} / 4096 caracteres)
+                <h3 class="text-xl">Texto Completo: ( {{multi.textData.length}} / 24000 caracteres)
                     <textarea v-model="multi.textData" class="w-full border-2 rounded mx-3 my-3 p-3 shadow"
-                  maxlenght="4096" row="4" required></textarea>
+                  maxlenght="24000" row="10" required></textarea>
                 </h3>   
                 <button 
                 @click="multipiece.insertpiece"
