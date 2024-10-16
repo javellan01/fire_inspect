@@ -66,7 +66,27 @@
         return $events;
 
     }
-    
+    function getAlocacao($conn,$id_bombeiro){
+
+        $stmt = $conn->query("SELECT c.tx_nome, c.id_cliente 
+                        FROM bombeiro_aloc b 
+                        JOIN cliente c ON b.id_cliente = c.id_cliente
+                        WHERE b.id_bombeiro = $id_bombeiro
+                        ");
+        $obj = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        $data = '';
+        
+        foreach($obj as $cliente){
+            $data .= '<option value='.$cliente->id_cliente.'>';
+            $data .= $cliente->tx_nome;        
+            $data .= '</option>';
+         
+        }
+        
+        return $data;
+    }
+
     function selectPedidos($conn){
         $stmt = $conn->query("SELECT c.tx_nome, p.tx_codigo, p.tx_local, p.id_pedido FROM pedido p INNER JOIN cliente c ON p.id_cliente = c.id_cliente");
         $obj = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -82,4 +102,97 @@
         
         echo $data;
     }
+
+    function getvencimentosN3($conn,$id_cliente,$id_bombeiro){
+    
+        $data = '';
+        $id_list = array(1,2);    
+
+    if(in_array($id_bombeiro,$id_list)){
+
+        $current_year = date("Y", $_SERVER['REQUEST_TIME']);
+
+        $stmt = $conn->prepare("SELECT ext.id_serie, ext.dt_vencimenton3, map.id_posicao
+                                FROM extintores AS ext
+                                JOIN cliente_map AS map ON ext.id_serie = map.id_serie
+                                WHERE ext.id_cliente = :id_cliente AND
+                                      ext.dt_vencimenton3 <= :current_year
+                                ORDER BY map.id_posicao ASC;
+                                ");
+        $stmt->bindParam(':id_cliente', $id_cliente);
+        $stmt->bindParam(':current_year', $current_year);
+        $stmt->execute();
+
+        $obj = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        if(!$obj){
+            return $data;
+        }
+
+        $total = count($obj);
+
+        $data .= '<table><tr><th>Nº</th><th>NºSÉRIE</th><th>VENCIMENTO N3</th></tr>';
+
+        foreach($obj as $extintor){
+            $data .= '<tr><td>'.$extintor->id_posicao.'</td>';
+            $data .= '<td>'.$extintor->id_serie.'</td>';
+            $data .= '<td>'.$extintor->dt_vencimenton3.'</td></tr>';
+        }
+
+        $data .= '<tr><td></td><td>TOTAL</td><td>'.$total.'</td></tr></table>';
+        
+        $obj = NULL;
+    }
+
+        return $data;
+
+    }
+
+    function getvencimentosN2($conn,$id_cliente,$id_bombeiro){
+
+        $data = '';
+        $id_list = array(1,2);    
+
+        if(in_array($id_bombeiro,$id_list)){
+
+        $current_year = date("Y", $_SERVER['REQUEST_TIME']);
+        $current_month = date("m", $_SERVER['REQUEST_TIME']);
+
+        $stmt = $conn->prepare("SELECT * FROM 
+                        (SELECT ext.id_serie, (RIGHT(ext.dt_vencimenton2,2)+2000) AS ano_n2, 
+                        LEFT(ext.dt_vencimenton2,3) AS mes_n2, ext.dt_vencimenton2, map.id_posicao 
+                        FROM extintores AS ext 
+                        JOIN cliente_map AS map ON ext.id_serie = map.id_serie 
+                        WHERE ext.id_cliente = :id_cliente) tb1 
+                        WHERE tb1.ano_n2 <= :current_year 
+                        ORDER BY id_posicao ASC; 
+                                ");
+        $stmt->bindParam(':id_cliente', $id_cliente);
+        $stmt->bindParam(':current_year', $current_year);
+        $stmt->execute();
+
+        $obj = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+        if(!$obj){
+            return $data;
+        }
+        $total = count($obj);
+        
+        $data .= '<table><tr><th>Nº</th><th>NºSÉRIE</th><th>VENCIMENTO N2</th></tr>';
+
+        foreach($obj as $extintor){
+            $data .= '<tr><td>'.$extintor->id_posicao.'</td>';
+            $data .= '<td>'.$extintor->id_serie.'</td>';
+            $data .= '<td>'.$extintor->dt_vencimenton2.'</td></tr>';
+        }
+
+        $data .= '<tr><td></td><td>TOTAL</td><td>'.$total.'</td></tr></table>';
+        
+        $obj = NULL;
+        }
+
+        return $data;
+
+    }
+
 ?>

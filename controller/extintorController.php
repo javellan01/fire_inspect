@@ -69,11 +69,10 @@ function getExtLastInspection($conn,$ext){
 
 function getExtintor($conn,$ext){
 
-    $stmt = $conn->prepare("SELECT map.tx_predio, map.tx_area, map.tx_localiz, 
+    $stmt = $conn->prepare("SELECT map.tx_predio, map.tx_area, map.tx_localiz, map.id_posicao,
                         inm.tx_inmetro, ext.id_serie, ext.tx_tipo, ext.tx_capacidade, 
                         ext.bool_carreta, ext.cs_estado, cli.tx_nome, ext.id_cliente, ext.uuid, 
-                        DATE_FORMAT(ext.dt_vencimenton2, '%d/%m/%Y') AS dt_vencimenton2, 
-                        ext.dt_vencimenton3
+                        ext.dt_vencimenton2,ext.dt_vencimenton3
                         FROM extintores AS ext
                         INNER JOIN cliente AS cli ON ext.id_cliente = cli.id_cliente
                         LEFT JOIN extintores_inm AS inm ON ext.id_serie = inm.id_serie
@@ -219,7 +218,132 @@ function insertInspecaoExtintor($conn,$data){
     }
     
 }
+function map_updateExtintores($conn, $data){
 
+    $e = null;
+    $pieceCount = 0;
+    $pieceList = array();
+    $pieceText = array();
+    $str = $data['textData'];
+    $cliente = $data['codCliente'];
+
+    $regCodigo = '/(.*),(.*),(.*),(.*),(.*)/';
+    preg_match_all($regCodigo,$str,$pieceList);
+
+    $pieceCount = count($pieceList[0]);
+
+    echo "(count)Extintores contados: ".$pieceCount;
+    
+    echo "<br>";
+
+    try{
+        $conn->beginTransaction();
+
+        $stmt = $conn->prepare("UPDATE cliente_map
+                        SET id_posicao = :id_posicao , tx_predio = :tx_predio , tx_area = :tx_area, tx_localiz = :tx_localiz
+                        WHERE id_serie = :id_serie
+                        ");
+    //array 1 => 0 => numero de serie
+    //array 2 => 0 => id_posicao
+    //array 3 => 0 => tx_predio
+    //array 4 => 0 => tx_area
+    //array 5 => 0 => tx_localiz
+
+    for($i = 0; $i < $pieceCount ; $i++){
+
+        
+          echo "<br>Listagem de parametros: Extintor count:".$i."<br>";
+          echo $pieceList[1][$i]."<br>";
+         // echo $pieceList[2][$i]."<br>";
+         // echo $pieceList[3][$i]."<br>";
+         // echo $pieceList[4][$i]."<br>";
+         // echo $pieceList[5][$i]."<br>";
+        
+
+        $stmt->bindParam(':id_serie', $pieceList[1][$i]);  
+        $stmt->bindParam(':id_posicao', $pieceList[2][$i]);  
+        $stmt->bindParam(':tx_predio', $pieceList[3][$i]);  
+        $stmt->bindParam(':tx_area', $pieceList[4][$i]);     
+        $stmt->bindParam(':tx_localiz', $pieceList[5][$i]);  
+
+        $stmt->execute();
+        
+      }
+
+    $conn->commit();
+ 
+    }catch(PDOException $e)
+		{
+		echo "Erro ao cadastrar coleção de ".$pieceCount." extintores! " . $e->getMessage();
+        $conn->rollback();
+		}
+		
+		if($e == null){
+            return true;
+        }else{
+            return false;
+        }
+
+}
+
+function inm_updateExtintores($conn, $data){
+
+    $e = null;
+    $pieceCount = 0;
+    $pieceList = array();
+    $pieceText = array();
+    $str = $data['textData'];
+    $cliente = $data['codCliente'];
+
+    $regCodigo = '/(.*),(.*)/';
+    preg_match_all($regCodigo,$str,$pieceList);
+
+    $pieceCount = count($pieceList[0]);
+
+    echo "(count)Extintores contados: ".$pieceCount;
+    
+    echo "<br>";
+
+    try{
+        $conn->beginTransaction();
+
+        $stmt = $conn->prepare("UPDATE extintores_inm
+                        SET tx_inmetro = :tx_inmetro
+                        WHERE id_serie = :id_serie
+                        ");
+    //array 1 => 0 => numero de serie
+    //array 2 => 0 => tx_inmetro
+
+    for($i = 0; $i < $pieceCount ; $i++){
+
+        
+          echo "<br>Listagem de parametros: Extintor count:".$i."<br>";
+          echo $pieceList[1][$i]."<br>";
+         // echo $pieceList[2][$i]."<br>";
+        
+
+        $stmt->bindParam(':id_serie', $pieceList[1][$i]);  
+        $stmt->bindParam(':tx_inmetro', $pieceList[2][$i]);  
+
+        $stmt->execute();
+        
+      }
+
+    $conn->commit();
+ 
+    }catch(PDOException $e)
+		{
+		echo "Erro ao cadastrar coleção de ".$pieceCount." extintores! " . $e->getMessage();
+        $conn->rollback();
+		}
+		
+		if($e == null){
+            return true;
+        }else{
+            return false;
+        }
+
+}
 function insertExtintores($conn,$data){
     $uuid_client = new Client();
     $e = null;

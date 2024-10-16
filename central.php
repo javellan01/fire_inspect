@@ -37,6 +37,9 @@
 	require("./DB/conn.php");	
 	
 	$events = getInspectEvents($conn,$_SESSION['userid']);
+	$clientes = getAlocacao($conn,$_SESSION['userid']);
+	$vencimentos_n3 = getvencimentosN3($conn,59,$_SESSION['userid']);
+	$vencimentos_n2 = getvencimentosN2($conn,59,$_SESSION['userid']);
 
 ?>
 <!DOCTYPE html>
@@ -76,7 +79,7 @@
 		<script src="./dist/fullcalendar/main.min.js"></script>
 		<script src="./dist/fullcalendar/pt-br.js"></script>
 		<script src="./dist/spectrum/spectrum.min.js"></script>
-
+		<script src="./assets/js/html5-qrcode.min.js"></script>
 
 </head>
 
@@ -118,12 +121,30 @@
 			</div>
 			</div> 
 			<div class="card-body">	
+			<div class="container text-center my-2">
+					<a href="qrRead.php" style="font-weight: bold; white-space: normal;"
+					class="btn btn-primary btn-lg"><i class="nav-icon cui-magnifying-glass"></i>
+					LER QRCODE
+					</a>
+			</div>	
 			<div class='row'>
 				<div class='col-12'>
 				<div class="w-full m-1 p-1 shadow rounded" id="calendar"></div>
-				</div>		
-					
-			</div>		
+			</div>	
+			<!-------- VUE PORTION -------------------------->
+			<div id='v-app'>
+				<div v-show='showDiv' class='row'>
+					<div class='col-12'>
+					<div class='inline-block'>
+						<p>Próximos vencimenos N2:</p>
+												
+						<div class="w-75 m-1 p-1 shadow rounded">
+						<?php echo $vencimentos_n2;?></div>
+					</div>
+				</div>	
+			</div>
+			</div>
+			<!-------- VUE PORTION -------------------------->		
 			</div>
 		</div>
     </div>			
@@ -173,6 +194,44 @@
 
 			});
 		</script>
+
+		<!-- PETIT VUE ----------------------------------------------------->
+		
+		<script type="module">
+
+		var user_data = <?php echo $_SESSION['userid']; ?>;
+
+        import { createApp, reactive } from "https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.es.js?module";
+
+        const textFile = "";
+        const textSize = "";
+
+        function readFile(event){
+            this.textFile = event.target.value;
+        };
+
+        const multi = reactive({
+            textData: "",
+            counter: 0
+        });
+        
+		const multipiece = reactive({
+            saveSucess: "",
+            async insertpiece(){
+                await fetch(`insertExtintores.php`,{
+                method: "POST",
+                body: JSON.stringify(multi),
+                headers: {"Content-type": "application/json; charset=UTF-8"} })
+            .then(Response => Response.json())
+            .then(json => console.log(json))
+            .catch(err => console.log(err));
+
+            }
+        });
+
+            createApp({   }).mount("#v-app");
+
+   	 </script>
  </body> 
  
 </html> 
