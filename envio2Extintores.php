@@ -1,6 +1,6 @@
 <?php 
-    //header("Location: login.php"); 
-    //exit();
+    header("Location: login.php"); 
+    exit();
 	// Inicia sessões
 	//session_start(); 
 	//echo session_status(); 

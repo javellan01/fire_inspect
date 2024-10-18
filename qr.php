@@ -1,6 +1,6 @@
 <?php
-//header("Location: login.php"); 
-//exit();
+header("Location: login.php"); 
+exit();
 /** 
  *
  * @created      13.07.2023

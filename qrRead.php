@@ -21,7 +21,7 @@ $key = include("./config/key.php");
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
-	<title>FireSystem - Leitor QR</title>
+	<title>FireSystems | Leitor QR</title>
 	<link rel="stylesheet" href="./assets/css/jquery-ui.min.css">
 	<link rel="stylesheet" href="./dist/css/coreui.min.css">
 	<link rel="stylesheet" href="./dist/css/coreui-icons.min.css">
@@ -49,6 +49,11 @@ $key = include("./config/key.php");
 				<li class="nav-item p-2">
 				<a class="btn btn-outline-light" href="logout.php?token=<?php echo md5(session_id());?>">Logout <i class="nav-icon cui-account-logout"></i></a>
 				</li>
+				<li class="nav-item p-2">
+                <div class='btn btn-outline-light'> <?php 
+                $current_time = date("d/m/Y H:i:s", $_SERVER['REQUEST_TIME']);
+                echo "Manaus, ".$current_time;?></adiv>
+				</li>
 			</ul>
 </header>
 
@@ -66,13 +71,6 @@ $key = include("./config/key.php");
 	<div class="container-fluid">
 		<div class="card">
 			<div class='card-header'>
-                <div class="row">
-                    <div class="col-12">
-                    <h4 class='btn btn-outline-primary float-right'> <?php 
-                    $current_time = date("d/m/Y H:i:s", $_SERVER['REQUEST_TIME']);
-                    echo "Manaus, ".$current_time;?></h4>
-                    </div>
-			    </div>
                 <div class="row mt-1">
                     <div class="col-12">
                     <h3><i class="nav-icon cui-magnifying-glass"></i><cite> Sistema FireSystems</cite> - Ler QR Code:</h3>
@@ -129,7 +127,7 @@ function onScanSuccess(decodedText, decodedResult) {
 }
 
 var html5QrcodeScanner = new Html5QrcodeScanner(
-    "reader", { fps: 10, qrbox: 250 });
+    "reader", { fps: 12, qrbox: 160 });
 
 html5QrcodeScanner.render(onScanSuccess);
 

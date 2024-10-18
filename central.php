@@ -48,7 +48,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
-	<title>Bombeiro | FireSystems</title>
+	<title>FireSystems | Bombeiro</title>
 	<link rel="stylesheet" href="./assets/css/toastr.min.css">
 	<link rel="stylesheet" href="./assets/css/jquery-ui.min.css">
 	<link rel="stylesheet" href="./dist/css/coreui.min.css">
@@ -198,17 +198,25 @@
 		<!-- PETIT VUE ----------------------------------------------------->
 		
 		<script type="module">
+		
+		import { createApp, reactive } from "https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.es.js?module";
 
 		var user_data = <?php echo $_SESSION['userid']; ?>;
+		
+		const permit = [ 1, 2];
 
-        import { createApp, reactive } from "https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.es.js?module";
-
-        const textFile = "";
-        const textSize = "";
-
+		        
         function readFile(event){
             this.textFile = event.target.value;
         };
+
+		const app = reactive({
+            showDiv: false
+        });
+
+		if(permit.includes(user_data)){
+			app.showDiv = true;
+		}
 
         const multi = reactive({
             textData: "",
@@ -229,7 +237,7 @@
             }
         });
 
-            createApp({   }).mount("#v-app");
+        createApp({ app }).mount("#v-app");
 
    	 </script>
  </body> 

@@ -13,7 +13,7 @@ $key = include("./config/key.php");
         exit();
 	} 
 
-    if(!$_SESSION['extintor']){
+    if(!$_SESSION['hidrante']){
         header("Location: central.php");
         exit();
     }
@@ -22,20 +22,20 @@ $key = include("./config/key.php");
 	header("Pragma: no-cache"); // HTTP 1.1
 	header("Expires: 0"); //
 
-    $ext = $_SESSION['extintor'];
+    $hid = $_SESSION['hidrante'];
     $resp = 0;
 
     require("./DB/conn.php");
-    require("./controller/extintorController.php");
+    require("./controller/hidranteController.php");
 
 	date_default_timezone_set('America/Manaus');
     
-    $extintor = getExtintor($conn,$ext);
-    if($extintor){
-        $ext = $extintor['id_serie'];
+    $hidrante = getHidrante($conn,$hid);
+    if($hidrante){
+        $hid = $hidrante['id_serie'];
     }
     
-    $inspecao = getExtLastInspection($conn,$ext);
+    $inspecao = getHidLastInspection($conn,$hid);
 
     if(isset($_POST['submit']) && $_POST['submit'] == 'submit'){
         $data['nb_desvio'] = 0;
@@ -138,10 +138,10 @@ $key = include("./config/key.php");
             $extintor['cs_checkbox'] == 4 ? $data['ch20'] = 'C' : $data['ch20'] = 'N/A';
         }
 
-        unset($_SESSION['extintor']); 
+        unset($_SESSION['hidrante']); 
         unset($_POST);
         
-        $resp = insertInspecaoExtintor($conn,$data);
+        $resp = insertInspecaoHidrante($conn,$data);
     }
     $ext = '';
     
@@ -153,7 +153,7 @@ $key = include("./config/key.php");
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
-	<title>FireSystems | Inspeção de Extintor</title>
+	<title>FireSystems | Inspeção de Hidrante</title>
 	<link rel="stylesheet" href="./assets/css/jquery-ui.min.css">
 	<link rel="stylesheet" href="./dist/css/coreui.min.css">
 	<link rel="stylesheet" href="./dist/css/coreui-icons.min.css">
@@ -180,11 +180,6 @@ $key = include("./config/key.php");
 				<li class="nav-item p-2">
 				<a class="btn btn-outline-light" href="logout.php?token=<?php echo md5(session_id());?>">Logout <i class="nav-icon cui-account-logout"></i></a>
 				</li>
-				<li class="nav-item p-2">
-                <div class='btn btn-outline-light'> <?php 
-                $current_time = date("d/m/Y H:i:s", $_SERVER['REQUEST_TIME']);
-                echo "Manaus, ".$current_time;?></adiv>
-				</li>
 			</ul>
 </header>
 
@@ -201,26 +196,30 @@ $key = include("./config/key.php");
 	<div class="container-fluid">
 		<div class="card">
 			<div class='card-header'>
+                <div class="row">
+				<div class="col-12">
+				<h4 class='btn btn-outline-primary float-right'> <?php 
+                $current_time = date("d/m/Y H:i:s", $_SERVER['REQUEST_TIME']);
+                echo "Manaus, ".$current_time;?></h4>
+				</div>
+			    </div>
                 <div class="row mt-1">
 				<div class="col-12">
-				<h3><i class="nav-icon cui-task"></i><cite> Sistema FireSystems</cite> - Inspeção de Extintor:</h3>
+				<h3><i class="nav-icon cui-task"></i><cite> Sistema FireSystems</cite> - Inspeção de Hidrante:</h3>
 				</div>
 			    </div>
 			<div class="row mt-1">
 				<div class="col-12 text-primary">
 				<h4><i class="nav-icon cui-location-pin"></i> <?php echo $extintor['tx_nome'];?></h4>
-                <h5><i class="nav-icon cui-location-pin"></i> <?php echo 'Prédio: '.$extintor['tx_predio'];?></h5>
-                <h5><i class="nav-icon cui-location-pin"></i> <?php echo 'Local: '.$extintor['tx_area'].', '.$extintor['tx_localiz'];?></h5>
+                <h5><i class="nav-icon cui-location-pin"></i> <?php echo 'Prédio: '.$extintor['tx_predio'].' - Local: '.$extintor['tx_area'].', '.$extintor['tx_localiz'];?></h5>
 				</div>
 			</div>
 			</div> 
 			<form action="inspExtintores.php" method="POST">	
 			<div class="card-body" id="inspEnvioMulti">	  
                 <h3 class="text-xl mb-2 text-danger"><i class="nav-icon cui-magnifying-glass"></i> <?php echo $extintor['bool_carreta'].' '.$extintor['tx_tipo'];?></h3>
-                <h4><i class="nav-icon cui-note"></i> Nº Posicão: <strong><?php echo $extintor['id_posicao'];?></strong></h4>
                 <h4><i class="nav-icon cui-note"></i> Capacidade: <?php echo $extintor['tx_capacidade'];?></h4>
-                <h4><i class="nav-icon cui-note"></i> Nº Série: <i><?php echo $extintor['id_serie'];?></h4>
-                <h4><i class="nav-icon cui-note"></i> Selo Inmetro: <i><?php echo $extintor['tx_inmetro'];?></i></h4>
+                <h4><i class="nav-icon cui-note"></i> Nº Série: <i><?php echo $extintor['id_serie'];?></i> - Selo Inmetro: <i><?php echo $extintor['tx_inmetro'];?></i></h4>
                 <h4><i class="nav-icon cui-calendar"></i> Última Inspeção: <?php echo $inspecao['dt_inspecao'];?> <i class="text-warning text-sm"> <?php echo $inspecao['msg'];?></i></h4>
                 <h4 class="text-primary"><i class="nav-icon cui-calendar"></i> Vencimento N2 (Carga): <?php echo $extintor['dt_vencimenton2'];?></h4>
                 <h4 class="text-danger"><i class="nav-icon cui-calendar"></i> Vencimento N3 (Hidrostático): <?php echo $extintor['dt_vencimenton3'];?></h4>
@@ -349,13 +348,13 @@ $key = include("./config/key.php");
                 
                 </section>
                 </div>
-				<div class="form-floating p-2" id="inputComentario" >
+				<div class="form-floating p-2" id="inputComentario" hidden>
                     <h5><label for="comentario">Comentário: ( {{multi.textData.length}} / 256 caracteres)</label></h5>
                     <textarea v-model="multi.textData" class="form-control" maxlenght="256" row="3" name="comentario" id="comentario" style="height: 120px;"></textarea>    
 				</div>	
                 </div>
 				<div class="container text-center"
-                <?php if($resp == 1 || $inspecao['insp_block'] == 1) echo "hidden";?>>
+                <?php if($inspecao['insp_block'] == 1) echo "hidden";?>>
 					<button type="submit" value="submit" name="submit" style="font-weight: bold; white-space: normal;"
 					class="btn btn-outline-primary btn-lg"><i class="nav-icon cui-pencil"></i>
 					CADASTRAR INSPEÇÃO
@@ -410,7 +409,7 @@ $key = include("./config/key.php");
             counter: 0
         });
         
-             //   createApp({  multi }).mount("#inspEnvioMulti");
+                createApp({  multi }).mount("#inspEnvioMulti");
 
         const checkList = document.querySelectorAll("input[type='checkbox']");
         const textArea = document.getElementById("inputComentario");
