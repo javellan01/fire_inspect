@@ -12,6 +12,11 @@ $key = include("./config/key.php");
         header("Location: login.php"); 	
         exit();
 	} 
+    
+    if($_SESSION['ativo'] == 0){
+		header('HTTP/1.1 403 Forbidden');
+		exit(); 
+	}
 
     if(!$_SESSION['extintor']){
         header("Location: central.php");
