@@ -8,7 +8,14 @@ function data_usqlS($data) {
     $ndata = substr($data, 8, 2) ."/". substr($data, 5, 2) ."/".substr($data, 0, 4);
     return $ndata;
 } 
-	
+
+function isInvalidQr($string) {
+    //at least one invalid character invalidates the input string
+    //1 = true or 0 = false
+    // '^' negates valid characters
+    return preg_match('/[^a-zA-Z0-9]/', $string);
+}
+
 //Recebe data atual e limite em dias, e verifica data atual está dentro do limite ou não
 function toInspect($current_date, $limit){
 

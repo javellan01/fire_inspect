@@ -37,9 +37,9 @@
 	require("./DB/conn.php");	
 	
 	$events = getInspectEvents($conn,$_SESSION['userid']);
-	$clientes = getAlocacao($conn,$_SESSION['userid']);
-	$vencimentos_n3 = getvencimentosN3($conn,59,$_SESSION['userid']);
-	$vencimentos_n2 = getvencimentosN2($conn,59,$_SESSION['userid']);
+	//$clientes = getAlocacao($conn,$_SESSION['userid']);
+	//$vencimentos_n3 = getvencimentosN3($conn,59,$_SESSION['userid']);
+	//$vencimentos_n2 = getvencimentosN2($conn,59,$_SESSION['userid']);
 
 ?>
 <!DOCTYPE html>
@@ -79,7 +79,6 @@
 		<script src="./dist/fullcalendar/main.min.js"></script>
 		<script src="./dist/fullcalendar/pt-br.js"></script>
 		<script src="./dist/spectrum/spectrum.min.js"></script>
-		<script src="./assets/js/html5-qrcode.min.js"></script>
 
 </head>
 
@@ -121,9 +120,9 @@
 			</div>
 			</div> 
 			<div class="card-body">	
-			<div class="container text-center my-2">
+			<div class="container text-center my-2" id="btn_area">
 					<a href="qrRead.php" style="font-weight: bold; white-space: normal;"
-					class="btn btn-primary btn-lg"><i class="nav-icon cui-magnifying-glass"></i>
+					   class="d-inline mx-2 btn btn-primary btn-lg"><i class="nav-icon cui-magnifying-glass"></i>
 					LER QRCODE
 					</a>
 			</div>	
@@ -144,7 +143,10 @@
 				</div>	
 			</div>
 			</div>
-			<!-------- VUE PORTION -------------------------->		
+			<!-------- VUE PORTION -------------------------->
+				<div class="container text-center my-2">
+						
+				</div>	
 			</div>
 		</div>
     </div>			
@@ -167,6 +169,18 @@
 	</footer>
 			<script>
   			  var events_data = <?php echo json_encode($events, JSON_HEX_TAG); ?>;
+
+			  var user_data = <?php echo $_SESSION['userid'];?>;
+
+			  const permit = [ 1,2];
+			
+			  if(permit.includes(user_data)){
+				let btn = `<a href="review.php" style="font-weight: bold; white-space: normal;"
+						class="d-inline mx-2 btn btn-success btn-lg" role="button"><i class="nav-icon cui-graph"></i>
+						VISÃO GERAL</a>`;
+				$(btn).appendTo("div#btn_area");
+				
+			  }
 			</script>	
 		<!-- fullCallendar ----------------------------------------------------->
 
@@ -201,9 +215,7 @@
 		
 		import { createApp, reactive } from "https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.es.js?module";
 
-		var user_data = <?php echo $_SESSION['userid']; ?>;
-		
-		const permit = [ 1, 2];
+	
 
 		        
         function readFile(event){

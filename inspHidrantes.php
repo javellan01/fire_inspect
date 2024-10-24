@@ -33,20 +33,20 @@ $key = include("./config/key.php");
     $hidrante = getHidrante($conn,$hid);
     if($hidrante){
         $hid = $hidrante['id_serie'];
+        $cliente = $hidrante['id_cliente'];
     }
     
-    $inspecao = getHidLastInspection($conn,$hid);
+    $inspecao = getHidLastInspection($conn,$hid,$cliente);
 
     if(isset($_POST['submit']) && $_POST['submit'] == 'submit'){
-        $data['nb_desvio'] = 0;
-        $data['id_serie'] = $extintor['id_serie'];
+
+        $data['nb_desvio'] =  0;
+        $data['id_serie'] =   $hidrante['id_serie'];
+        $data['cliente'] =    $hidrante['id_cliente'];
         $data['comentario'] = $_POST['comentario'];
-        $data['bombeiro'] = $_SESSION['userid'];
-        $data['predio'] = $extintor['tx_predio'];
-        $data['area'] = $extintor['tx_area'];
-        $data['localiz'] = $extintor['tx_localiz'];
-        $data['inmetro'] = $extintor['tx_inmetro'];
-        $data['cliente'] = $extintor['id_cliente'];
+        $data['bombeiro'] =   $_SESSION['userid'];
+        $data['predio'] =     $hidrante['tx_local'];
+        
         if(isset($_POST['ch1'])) {
              $data['ch1'] = 'N/C';
              $data['nb_desvio'] += 1;
@@ -73,71 +73,19 @@ $key = include("./config/key.php");
          }else{ $data['ch6'] = 'C';}
         if(isset($_POST['ch7'])) {
              $data['ch7'] = 'N/C';
-             $data['nb_desvio'] += 6;
-         }else{ 
-             $extintor['cs_checkbox'] == 4 ? $data['ch7'] = 'N/A' : $data['ch7'] = 'C';
+             $data['nb_desvio'] += 1;
+         }else{ $data['ch7'] = 'C';
         }
         if(isset($_POST['ch8'])) {
              $data['ch8'] = 'N/C';
-             $data['nb_desvio'] += 6;
+             $data['nb_desvio'] += 1;
          }else{ $data['ch8'] = 'C';}
         if(isset($_POST['ch9'])) {
              $data['ch9'] = 'N/C';
-             $data['nb_desvio'] += 6;
-         }else{
-            $extintor['cs_checkbox'] == 4 ? $data['ch9'] = 'C' : $data['ch9'] = 'N/A';
-            }
-        if(isset($_POST['ch10'])) {
-             $data['ch10'] = 'N/C';
-             $data['nb_desvio'] += 6;
-        }else{  
-            $extintor['cs_checkbox'] == 4 ? $data['ch10'] = 'N/A' : $data['ch10'] = 'C';
+             $data['nb_desvio'] += 1;
+         }else{ $data['ch9'] = 'C';
         }
-       if(isset($_POST['ch11'])) {
-             $data['ch11'] = 'N/C';
-             $data['nb_desvio'] += 6;
-        }else{  $data['ch11'] = 'C';}
-        if(isset($_POST['ch12'])) {
-             $data['ch12'] = 'N/C';
-             $data['nb_desvio'] += 1;
-        }else{  $data['ch12'] = 'C';}
-        if(isset($_POST['ch13'])) {
-             $data['ch13'] = 'N/C';
-             $data['nb_desvio'] += 1;
-        }else{  $data['ch13'] = 'C';}
-        if(isset($_POST['ch14'])) {
-             $data['ch14'] = 'N/C';
-             $data['nb_desvio'] += 1;
-        }else{  $data['ch14'] = 'C';}
-        if(isset($_POST['ch15'])) {
-             $data['ch15'] = 'N/C';
-             $data['nb_desvio'] += 1;
-        }else{  $data['ch15'] = 'C';}
-        if(isset($_POST['ch16'])) {
-            $data['ch16'] = 'N/C';
-            $data['nb_desvio'] += 1;
-        }else{  $data['ch16'] = 'C';}
-        if(isset($_POST['ch17'])) {
-            $data['ch17'] = 'N/C';
-            $data['nb_desvio'] += 1;
-        }else{  $data['ch17'] = 'C';}
-        if(isset($_POST['ch18'])) {
-            $data['ch18'] = 'N/C';
-            $data['nb_desvio'] += 1;
-        }else{  $data['ch18'] = 'C';}
-        if(isset($_POST['ch19'])){
-            $data['ch19'] = 'N/C';
-            $data['nb_desvio'] += 6;
-        }else{  
-            $extintor['cs_checkbox'] == 4 ? $data['ch19'] = 'C' : $data['ch19'] = 'N/A';
-        }
-        if(isset($_POST['ch20'])) {
-             $data['ch20'] = 'N/C';
-             $data['nb_desvio'] += 1;
-        }else{  
-            $extintor['cs_checkbox'] == 4 ? $data['ch20'] = 'C' : $data['ch20'] = 'N/A';
-        }
-
+        
         unset($_SESSION['hidrante']); 
         unset($_POST);
         
@@ -180,6 +128,11 @@ $key = include("./config/key.php");
 				<li class="nav-item p-2">
 				<a class="btn btn-outline-light" href="logout.php?token=<?php echo md5(session_id());?>">Logout <i class="nav-icon cui-account-logout"></i></a>
 				</li>
+                <li class="nav-item p-2">
+                <div class='btn btn-outline-light'> <?php 
+                $current_time = date("d/m/Y H:i:s", $_SERVER['REQUEST_TIME']);
+                echo "Manaus, ".$current_time;?></adiv>
+				</li>
 			</ul>
 </header>
 
@@ -196,13 +149,7 @@ $key = include("./config/key.php");
 	<div class="container-fluid">
 		<div class="card">
 			<div class='card-header'>
-                <div class="row">
-				<div class="col-12">
-				<h4 class='btn btn-outline-primary float-right'> <?php 
-                $current_time = date("d/m/Y H:i:s", $_SERVER['REQUEST_TIME']);
-                echo "Manaus, ".$current_time;?></h4>
-				</div>
-			    </div>
+                
                 <div class="row mt-1">
 				<div class="col-12">
 				<h3><i class="nav-icon cui-task"></i><cite> Sistema FireSystems</cite> - Inspeção de Hidrante:</h3>
@@ -210,19 +157,18 @@ $key = include("./config/key.php");
 			    </div>
 			<div class="row mt-1">
 				<div class="col-12 text-primary">
-				<h4><i class="nav-icon cui-location-pin"></i> <?php echo $extintor['tx_nome'];?></h4>
-                <h5><i class="nav-icon cui-location-pin"></i> <?php echo 'Prédio: '.$extintor['tx_predio'].' - Local: '.$extintor['tx_area'].', '.$extintor['tx_localiz'];?></h5>
+				<h4><i class="nav-icon cui-location-pin"></i> <?php echo $hidrante['tx_nome'];?></h4>
+                <h5><i class="nav-icon cui-location-pin"></i> <?php echo 'Local: '.$hidrante['tx_local'];?></h5>
 				</div>
 			</div>
 			</div> 
-			<form action="inspExtintores.php" method="POST">	
+			<form action="inspHidrantes.php" method="POST">	
 			<div class="card-body" id="inspEnvioMulti">	  
-                <h3 class="text-xl mb-2 text-danger"><i class="nav-icon cui-magnifying-glass"></i> <?php echo $extintor['bool_carreta'].' '.$extintor['tx_tipo'];?></h3>
-                <h4><i class="nav-icon cui-note"></i> Capacidade: <?php echo $extintor['tx_capacidade'];?></h4>
-                <h4><i class="nav-icon cui-note"></i> Nº Série: <i><?php echo $extintor['id_serie'];?></i> - Selo Inmetro: <i><?php echo $extintor['tx_inmetro'];?></i></h4>
+                <h3 class="text-xl mb-2 text-danger"><i class="nav-icon cui-magnifying-glass"></i> H-<?php echo $hidrante['id_serie'];?></h3>
+                <h4><i class="nav-icon cui-note"></i><?php echo ' HIDRANTE '.$hidrante['tx_tipo'];?></h4>
+                <h4><i class="nav-icon cui-note"></i> Diâmetro: <?php echo $hidrante['tx_diam'];?></h4>
+                <h4><i class="nav-icon cui-note"></i> Mangueiras: <?php echo $hidrante['nb_mangueira'].' x '.$hidrante['tx_mangueira'];?></h4>
                 <h4><i class="nav-icon cui-calendar"></i> Última Inspeção: <?php echo $inspecao['dt_inspecao'];?> <i class="text-warning text-sm"> <?php echo $inspecao['msg'];?></i></h4>
-                <h4 class="text-primary"><i class="nav-icon cui-calendar"></i> Vencimento N2 (Carga): <?php echo $extintor['dt_vencimenton2'];?></h4>
-                <h4 class="text-danger"><i class="nav-icon cui-calendar"></i> Vencimento N3 (Hidrostático): <?php echo $extintor['dt_vencimenton3'];?></h4>
                 <div class="card" <?php if($resp == 1 || $inspecao['insp_block'] == 1) echo "hidden";?>>
 					<div class="card-header">
 						<h3 class="text-xl"><i class="nav-icon cui-note"></i> NÃO CONFORMIDADES: ( <span class="inconf">{{ multi.counter }}</span> )</h3>
@@ -237,118 +183,50 @@ $key = include("./config/key.php");
                     <label class="btn btn-outline-danger btn-lg" for="ch1">SINAL VERTICAL</label>    
                     <input type="checkbox" class="btn-check" id="ch1" name="ch1" value="1">
                     </div>
+
                     <div>
                     <label class="btn btn-outline-danger btn-lg" for="ch2">SINAL HORIZONTAL</label>    
                     <input type="checkbox" class="btn-check" id="ch2" name="ch2" value="1">
                     </div>
+
                     <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch3">LOCAL ADEQUADO</label>    
+                    <label class="btn btn-outline-danger btn-lg" for="ch3">ABRIGO</label>    
                     <input type="checkbox" class="btn-check" id="ch3" name="ch3" value="1">
                     </div>
-                
-                
+
                     <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch4">ACESSO OBSTRUÍDO</label>    
+                    <label class="btn btn-outline-danger btn-lg" for="ch4">ADAPTADOR</label>    
                     <input class="btn-check" type="checkbox" id="ch4" name="ch4" value="1">
                     </div>
+
                     <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch5">AGENTE EXT. ADEQUADO</label>    
+                    <label class="btn btn-outline-danger btn-lg" for="ch5">CHAVE STORZ</label>    
                     <input class="btn-check" type="checkbox" id="ch5" name="ch5" value="1">
                     </div>
+
                     <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch6">SUPORTE</label>    
+                    <label class="btn btn-outline-danger btn-lg" for="ch6">ESGUICHO</label>    
                     <input class="btn-check" type="checkbox" id="ch6" name="ch6" value="1">
                     </div>
                 
-                
                     <div>
-                    <label class="btn 
-                    <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-secondary btn-lg' : 'btn-outline-danger btn-lg';?>
-                    " for="ch7">PRESSÃO NOMINAL</label>    
-                    <input class="btn-check" type="checkbox" id="ch7" name="ch7" value="1" 
-                    <?php if($extintor['cs_checkbox'] == 4) echo 'disabled';?>
-                    >
+                    <label class="btn btn-outline-danger btn-lg" for="ch7">LACRE</label>    
+                    <input class="btn-check" type="checkbox" id="ch7" name="ch7" value="1">
                     </div>
+
                     <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch8">TESTE HIDROSTÁTICO</label>    
+                    <label class="btn btn-outline-danger btn-lg" for="ch8">TAMPÃO</label>    
                     <input class="btn-check" type="checkbox" id="ch8" name="ch8" value="1">
                     </div>
+
                     <div>
-                    <label class="btn 
-                    <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-danger btn-lg' : 'btn-outline-secondary btn-lg';?>
-                    " for="ch9">CARGA / PESO</label>    
-                    <input class="btn-check" type="checkbox" id="ch9" name="ch9" value="1" 
-                    <?php if($extintor['cs_checkbox'] != 4) echo 'disabled';?>
-                    >
+                    <label class="btn btn-outline-danger btn-lg" for="ch9">VÁLVULA</label>    
+                    <input class="btn-check" type="checkbox" id="ch9" name="ch9" value="1">
                     </div>
-                
-                
-                    <div>
-                    <label class="btn 
-                    <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-secondary btn-lg' :'btn-outline-danger btn-lg';?>
-                    " for="ch10">MANÔMETRO</label>    
-                    <input class="btn-check" type="checkbox" id="ch10" name="ch10" value="1"
-                    <?php if($extintor['cs_checkbox'] == 4) echo 'disabled';?>
-                    >
-                    </div>
-                    <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch11">CILINDRO</label>    
-                    <input class="btn-check" type="checkbox" id="ch11" name="ch11" value="1">
-                    </div>
-                    <div>
-                    <label class="btn btn-outline-danger btn-lg"  for="ch12">ETIQUETA</label>    
-                    <input class="btn-check" type="checkbox" id="ch12" name="ch12" value="1">
-                    </div>
-                
-                
-                    <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch13">RÓTULO</label>    
-                    <input class="btn-check" type="checkbox" id="ch13" name="ch13" value="1">
-                    </div>
-                    <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch14">ALÇA</label>    
-                    <input class="btn-check" type="checkbox" id="ch14" name="ch14" value="1">
-                    </div>
-                    <div>
-                    <label class="btn btn-outline-danger btn-lg"  for="ch15">GATILHO</label>    
-                    <input class="btn-check" type="checkbox" id="ch15" name="ch15" value="1">
-                    </div>
-                
-                
-                    <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch16">TRAVA</label>    
-                    <input class="btn-check" type="checkbox" id="ch16" name="ch16" value="1">
-                    </div>
-                    <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch17">LACRE</label>    
-                    <input class="btn-check" type="checkbox" id="ch17" name="ch17" value="1">
-                    </div>
-                    <div>
-                    <label class="btn btn-outline-danger btn-lg" for="ch18">MANGUEIRA</label>    
-                    <input class="btn-check" type="checkbox" id="ch18" name="ch18" value="1">
-                    </div>
-                
-                
-                    <div>
-                    <label class="btn 
-                    <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-danger btn-lg' : 'btn-outline-secondary btn-lg';?>
-                    " for="ch19">PUNHO</label>    
-                    <input class="btn-check" type="checkbox" id="ch19" name="ch19" value="1"
-                    <?php if($extintor['cs_checkbox'] != 4) echo 'disabled';?>
-                    >
-                    </div>
-                    <div>
-                    <label class="btn 
-                    <?php echo $extintor['cs_checkbox'] == 4 ? 'btn-outline-danger btn-lg' : 'btn-outline-secondary btn-lg';?>
-                    " for="ch20">DIFUSOR</label>    
-                    <input class="btn-check" type="checkbox" id="ch20" name="ch20" value="1"
-                    <?php if($extintor['cs_checkbox'] != 4) echo 'disabled';?>
-                    >
-                    </div>
-                
+                                    
                 </section>
                 </div>
-				<div class="form-floating p-2" id="inputComentario" hidden>
+				<div class="form-floating p-2" id="inputComentario">
                     <h5><label for="comentario">Comentário: ( {{multi.textData.length}} / 256 caracteres)</label></h5>
                     <textarea v-model="multi.textData" class="form-control" maxlenght="256" row="3" name="comentario" id="comentario" style="height: 120px;"></textarea>    
 				</div>	
@@ -425,7 +303,7 @@ $key = include("./config/key.php");
             if(checkList[i].checked == true) counter = counter + 1; 
             
         }
-            counter == 0 ? textArea.hidden = true : textArea.hidden = false;
+            //counter == 0 ? textArea.hidden = true : textArea.hidden = false;
             multi.counter = counter;
         };
     </script>

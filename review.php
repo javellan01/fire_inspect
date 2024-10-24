@@ -118,14 +118,16 @@
 			<div class="card-body">	
 <!-------- VUE PORTION EXTINTORES --------------------------------------------->
 			<div id='extintores'>
-<!-------- ROW 01 EXTINTORES --------------------------------------------->
-			<div class='row' >
+
+<!-------- ROW 00 PESQUISA --------------------------------------------->
+<div class='row' >
 				<div class='col-12'>
 
 					<div class="w-full m-1 p-1" >
-					<h4><i class="nav-icon cui-note"></i> Extintores
+					<h4><i class="nav-icon cui-note"></i>
 							<label for="ext-cliente">Cliente:</label>
 							<select id="ext-cliente" name="ext-cliente">
+							<option selected value="0">Selecione Cliente</option>	
 							<?php echo $extintor_option['cliente_option'];?>
 							</select>
 							<label for="ext-ano">Ano:</label>
@@ -162,18 +164,21 @@
 
 				</div>	
 			</div>	
-<!-------- ROW 02 EXTINTORES --------------------------------------------->			
+<!-------- ROW 00 PESQUISA --------------------------------------------->
+
+<!-------- ROW 01 EXTINTORES --------------------------------------------->
+			
 			<div class='row' >
 				<div class='col-12'>
 
 					<div class="w-80 m-1 p-1" >
-					<h4>Desvio :
+					<h4>EXTINTORES - Desvio :
 					<div class="progress" style="height: 28px; font-size: 1.5rem" >
-						<div class="progress-bar progress-bar-striped" id='desvio' role="progressbar" style="width:0%; background-color: red">
+						<div class="progress-bar progress-bar-striped" id='ext-desvio' role="progressbar" style="width:0%; background-color: red">
 						N/C
 						</div>
-						<div class="progress-bar progress-bar-striped" id='conforme' role="progressbar" style="width:100%; background-color: green">
-						100%
+						<div class="progress-bar progress-bar-striped" id='ext-conforme' role="progressbar" style="width:100%; background-color: green">
+						0.00%
 						</div>
 					</div> 
 					</h4>
@@ -183,7 +188,32 @@
 				</div>	
 			</div>		
 		</div>			
-<!-------- VUE PORTION EXTINTORES ---------------------------------------------->	
+<!-------- VUE PORTION HIDRANTES ---------------------------------------------->	
+
+<!-------- ROW 01 HIDRANTES --------------------------------------------->
+		
+			<div class='row' >
+				<div class='col-12'>
+
+					<div class="w-80 m-1 p-1" >
+					<h4>HIDRANTES - Desvio :
+					<div class="progress" style="height: 28px; font-size: 1.5rem" >
+						<div class="progress-bar progress-bar-striped" id='hid-desvio' role="progressbar" style="width:0%; background-color: red">
+						N/C
+						</div>
+						<div class="progress-bar progress-bar-striped" id='hid-conforme' role="progressbar" style="width:100%; background-color: green">
+						0.00%
+						</div>
+					</div> 
+					</h4>
+					<p>Total Posições: <span id='ext-total'></span> - Inspeções: <span id='ext-total_insp'></span> - Não Insp.: <span id='ext-nao_insp'></span> - N/C: <span id='ext-total_nc'></span>   </p>
+					</div>
+
+				</div>	
+			</div>		
+		</div>			
+<!-------- VUE PORTION HIDRANTES ---------------------------------------------->	
+
 		</div>
     </div>			
 	
@@ -227,13 +257,13 @@
 
 					const res = await extres.json();
 					
-					$('div#conforme').text(res.final+'%');
-					$('div#conforme').css("width", (res.desvio+'%'));
-					$('div#desvio').css("width", (res.final+'%'));
-					$('span#total').text(res.total);
-					$('span#total_insp').text(res.total_insp);
-					$('span#nao_insp').text(res.nao_insp);
-					$('span#total_nc').text(res.total_nc);
+					$('div#ext-conforme').text(res.final+'%');
+					$('div#ext-conforme').css("width", (res.desvio+'%'));
+					$('div#ext-desvio').css("width", (res.final+'%'));
+					$('span#ext-total').text(res.total);
+					$('span#ext-total_insp').text(res.total_insp);
+					$('span#ext-nao_insp').text(res.nao_insp);
+					$('span#ext-total_nc').text(res.total_nc);
 				}		
 			
 			$('select#ext-cliente').on('change', function () {

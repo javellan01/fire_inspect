@@ -4,9 +4,19 @@ require("./controller/extintorController.php");
 
 $ext = $_REQUEST['q'];
 if(!$ext){
-    header('Location: https://www.firesystems-am.com.br');
+    header('Location: https://bombeiros.firesystems-am.com.br');
+    exit();
 }
 
+if( strlen($ext) != 9 ){
+    header('Location: https://bombeiros.firesystems-am.com.br');
+    exit();
+}
+
+if( isInvalidQr($ext) ){
+    header('Location: https://bombeiros.firesystems-am.com.br');
+    exit();
+}
 // Inicia sessões
 session_start(); 
 //echo session_status(); 

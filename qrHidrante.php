@@ -3,13 +3,26 @@
 require("./controller/hidranteController.php");
 
 $hid = $_REQUEST['h'];
+
 if(!$hid){
-    header('Location: https://www.firesystems-am.com.br');
+    header('Location: https://bombeiros.firesystems-am.com.br');
+    exit();
+}
+
+if( strlen($hid) != 9 ){
+    header('Location: https://bombeiros.firesystems-am.com.br');
+    exit();
+}
+
+if( isInvalidQr($hid) ){
+    header('Location: https://bombeiros.firesystems-am.com.br');
+    exit();
 }
 
 // Inicia sessões
 session_start(); 
 //echo session_status(); 
+$_SESSION['extintor'] = '';
 $_SESSION['hidrante'] = $hid;
 // Verifica se existe os dados da sessão de login 
 if(!isset($_SESSION["login"]) || !isset($_SESSION["usuario"])) 
