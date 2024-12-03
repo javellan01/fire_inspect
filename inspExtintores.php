@@ -415,7 +415,7 @@ $key = include("./config/key.php");
             counter: 0
         });
         
-             //   createApp({  multi }).mount("#inspEnvioMulti");
+               createApp({  multi }).mount("#inspEnvioMulti");
 
         const checkList = document.querySelectorAll("input[type='checkbox']");
         const textArea = document.getElementById("inputComentario");

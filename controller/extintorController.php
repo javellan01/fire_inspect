@@ -54,11 +54,11 @@ function getExtLastInspection($conn,$ext){
     
     if($data){
         if($mes == $data['dt_mes']){
-            $diff = toInspect($data['date_sqlformat'],20);
+            $diff = toInspect($data['date_sqlformat'],10);
             $data['insp_block'] = 1;
             $data['msg'] = 'Inspeção será liberada no mês seguinte.';
         }else{
-            $diff = toInspect($data['date_sqlformat'],20);
+            $diff = toInspect($data['date_sqlformat'],10);
             $diff['diff'] > 0 ? $data['insp_block'] = 1 : $data['insp_block'] = 0;
             $data['msg'] = $diff['msg'];
         }
