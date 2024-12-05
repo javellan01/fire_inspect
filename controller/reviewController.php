@@ -78,6 +78,17 @@ function loadPeriodo($year,$month,$day){
     
 }
 
+function getInspExtintores($conn,$cliente){
+
+    $stmt = $conn->query("SELECT * FROM pgsolimoes_inspecao_extintores");
+    $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+    
+    header('Content-type:application/json');
+        $output = json_encode($result);
+        echo $output;
+
+}
+
 function getExtReview($conn,$data){
 
     $id_cliente = $data['cliente'];
