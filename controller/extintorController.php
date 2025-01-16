@@ -54,7 +54,6 @@ function getExtLastInspection($conn,$ext){
     
     if($data){
         if($mes == $data['dt_mes']){
-            $diff = toInspect($data['date_sqlformat'],10);
             $data['insp_block'] = 1;
             $data['msg'] = 'Inspeção será liberada no mês seguinte.';
         }else{
@@ -177,11 +176,12 @@ function insertInspecaoExtintor($conn,$data){
 
     try{
     $stmt = $conn->prepare("INSERT INTO extintores_insp 
-                        (id_serie, nb_desvio, tx_sv, tx_sh, tx_la, tx_ao, tx_aea, tx_sp, tx_pn, tx_th, 
+                        (id_posicao, id_serie, nb_desvio, tx_sv, tx_sh, tx_la, tx_ao, tx_aea, tx_sp, tx_pn, tx_th, 
                         tx_carga, tx_manom, tx_cil, tx_etq, tx_rot, tx_alc, tx_gat, tx_trv, tx_lcr, tx_mang, tx_pun, tx_dif, tx_coment, id_bombeiro, tx_inmetro, tx_predio, tx_area, tx_localiz, id_cliente)
-                        VALUES (:id_serie, :nb_desvio, :tx_sv, :tx_sh, :tx_la, :tx_ao, :tx_aea, :tx_sp, :tx_pn, :tx_th, 
+                        VALUES (:id_posicao, :id_serie, :nb_desvio, :tx_sv, :tx_sh, :tx_la, :tx_ao, :tx_aea, :tx_sp, :tx_pn, :tx_th, 
                         :tx_carga, :tx_manom, :tx_cil, :tx_etq, :tx_rot, :tx_alc, :tx_gat, :tx_trv, :tx_lcr, :tx_mang, :tx_pun, :tx_dif, :tx_coment, :id_bombeiro, :tx_inmetro, :tx_predio, :tx_area, :tx_localiz, :id_cliente)");
     
+    $stmt->bindParam(':id_posicao', $data['id_posicao']);  
     $stmt->bindParam(':id_serie', $data['id_serie']);  
     $stmt->bindParam(':nb_desvio', $data['nb_desvio']);
     $stmt->bindParam(':tx_sv', $data['ch1']);

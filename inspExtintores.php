@@ -52,6 +52,7 @@ $key = include("./config/key.php");
         $data['localiz'] = $extintor['tx_localiz'];
         $data['inmetro'] = $extintor['tx_inmetro'];
         $data['cliente'] = $extintor['id_cliente'];
+        $data['id_posicao'] = $extintor['id_posicao'];
         if(isset($_POST['ch1'])) {
              $data['ch1'] = 'N/C';
              $data['nb_desvio'] += 1;
