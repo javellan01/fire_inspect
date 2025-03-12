@@ -103,6 +103,79 @@
         echo $data;
     }
 
+    function getStatus($data){
+
+        switch($data){
+            case 0: 
+                $result[0] = 'Pendente';
+                $result[1] = 'table-warning';
+                break;
+            case 1: 
+                $result[0] = 'Em Andamento';
+                $result[1] = 'table-info';
+                break;
+            case 2: 
+                $result[0] = 'Serviço Executado';
+                $result[1] = 'table-success';
+                break;
+            case 3: 
+                $result[0] = 'Não Executado';
+                $result[1] = 'table-danger';
+                break;
+        }
+
+        return $result;
+    }
+
+    function getLastestDefeitos($conn,$id_bombeiro){
+
+        $data = '<p>Você ainda não cadastrou nenhum defeito.<p>';
+
+        $e = null;
+        
+        $stmt = $conn->prepare("SELECT def.id_defeito, DATE_FORMAT(created_at, '%H:%i %d/%m/%y') AS data_criacao, def.tx_local, def.tx_sistema, cl.tx_nome_reduzido, def.nb_status
+                                FROM insp_defeitos AS def
+                                JOIN cliente AS cl ON def.id_cliente = cl.id_cliente
+                                WHERE def.id_bombeiro = :id_bombeiro
+                                ORDER BY def.id_defeito DESC
+                                LIMIT 5");
+        $stmt->bindParam(':id_bombeiro', $id_bombeiro);                        
+        $stmt->execute();
+
+        $obj = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        if(!$obj){
+            return $data;
+        }
+
+        $data = NULL;
+        $data .= '<table class="table"><thead><tr>
+        <th>Item</th>
+        <th>Planta</th>
+        <th>Sistema</th>
+        <th>Local</th>
+        <th>Status</th>
+        <th>Data</th>
+        </tr></thead><tbody>';
+
+        foreach($obj as $defeito){
+            $status = getStatus($defeito->nb_status);
+            $data .= '<tr class="'.$status[1].'"><td>'.$defeito->id_defeito.'</td>';
+            $data .= '<td>'.$defeito->tx_nome_reduzido.'</td>';
+            $data .= '<td>'.$defeito->tx_sistema.'</td>';
+            $data .= '<td>'.$defeito->tx_local.'</td>';
+            $data .= '<td>'.$status[0].'</td>';
+            $data .= '<td>'.$defeito->data_criacao.'</td></tr>';
+            
+        }
+        
+        $data .= '</tbody></table>';
+
+        $obj = NULL;
+        
+        return $data;
+    }
+
     function getvencimentosN3($conn,$id_cliente,$id_bombeiro){
     
         $data = '';
@@ -194,5 +267,36 @@
         return $data;
 
     }
+
+function insertDefeito($conn,$data){
+        $e = null;
+    
+        try{
+        $stmt = $conn->prepare("INSERT INTO insp_defeitos
+                            (id_bombeiro, id_cliente, tx_defeito, tx_local, tx_sistema, tx_tipo)
+                            VALUES 
+                            (:id_bombeiro, :id_cliente, :tx_defeito, :tx_local, :tx_sistema, :tx_tipo)");
+        
+        $stmt->bindParam(':tx_defeito', $data['defeito']);
+        $stmt->bindParam(':id_bombeiro', $data['bombeiro']);
+        $stmt->bindParam(':tx_sistema', $data['sistema']);
+        $stmt->bindParam(':tx_tipo', $data['tipo']);
+        $stmt->bindParam(':tx_local', $data['local']);
+        $stmt->bindParam(':id_cliente', $data['cliente']);
+        $stmt->execute();
+        
+        }catch(PDOException $e)
+        {
+        $e->getMessage();
+        }
+    
+        if($e == null){
+            return 1;
+        }else{
+            return 0;
+        }
+        
+    }
+
 
 ?>

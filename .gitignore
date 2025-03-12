@@ -1,7 +1,6 @@
 /vendor/
 /img/
-config/mail.php
-config/db.php
-config/key.php
+/img/
+/config/
 DB/conn.php
 

@@ -144,9 +144,12 @@
 			</div>
 			</div>
 			<!-------- VUE PORTION -------------------------->
-				<div class="container text-center my-2">
-						
-				</div>	
+			<div class="container text-center my-2" id="btn_area">
+					<a href="inDefeito.php" style="font-weight: bold; white-space: normal;"
+					   class="d-inline mx-2 btn btn-primary btn-lg"><i class="nav-icon cui-magnifying-glass"></i>
+					CADASTRAR DEFEITO
+					</a>
+			</div>	
 			</div>
 		</div>
     </div>			
